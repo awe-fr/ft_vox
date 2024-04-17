@@ -2,7 +2,7 @@
 
 #include "Major.h"
 
-class WindowApp {
+class	WindowApp {
 	private:
 		GLFWwindow	*_window;
 	public:

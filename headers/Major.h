@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <cmath>
 
 // opengl lib
 #include <GL/glew.h>
@@ -15,6 +16,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "WindowApp.hpp"
+#include "PlayerInfo.hpp"
 
 #define HEIGHT 720
 #define WIDTH 1280
