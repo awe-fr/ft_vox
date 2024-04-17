@@ -29,3 +29,11 @@ bool	WindowApp::InitWindow() {
 GLFWwindow	*WindowApp::GiveWindow() {
 	return (this->_window);
 }
+
+bool	WindowApp::IsClosed() {
+	if (glfwGetKey(this->_window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(this->_window) != 0)
+		return (true);
+	glfwSwapBuffers(this->_window);
+	glfwPollEvents();
+	return (false);
+}

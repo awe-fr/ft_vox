@@ -1,11 +1,12 @@
 #pragma once
 
-#include "major.h"
+#include "Major.h"
 
 class WindowApp {
 	private:
 		GLFWwindow	*_window;
 	public:
-		bool	InitWindow();
 		GLFWwindow	*GiveWindow();
+		bool	InitWindow();
+		bool	IsClosed();
 };

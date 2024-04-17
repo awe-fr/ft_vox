@@ -4,7 +4,7 @@ SRCS = srcs/*.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-CFLAGS = #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 LDFLAGS = -Iinclude -Llib -lglfw -lGLEW -lGL -lX11 -lpthread -lXrandr -lXi -ldl -D GLEW_STATIC
 
