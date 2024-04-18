@@ -17,6 +17,7 @@
 
 #include "WindowApp.hpp"
 #include "PlayerInfo.hpp"
+#include "Chunck.hpp"
 
 #define HEIGHT 720
 #define WIDTH 1280

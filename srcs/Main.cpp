@@ -1,43 +1,53 @@
 #include "../headers/Major.h"
 
+float	DeltaTime;
+
+void getDeltaTime() {
+	static double last = glfwGetTime();
+
+	double now = glfwGetTime();
+	DeltaTime = (float)(now - last);
+	last = now;
+}
+
 /*temp*/
 static const GLfloat g_vertex_buffer_data[] = {
-	-1.0f,-1.0f,-1.0f, // triangle 1 : begin
-	-1.0f,-1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f, // triangle 1 : end
-	1.0f, 1.0f,-1.0f, // triangle 2 : begin
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f,-1.0f, // triangle 2 : end
-	1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f,-1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f,
+	0.0f,0.0f,0.0f, // triangle 1 : begin
+	0.0f,0.0f, 1.0f,
+	0.0f, 1.0f, 1.0f, // triangle 1 : end
+	1.0f, 1.0f,0.0f, // triangle 2 : begin
+	0.0f,0.0f,0.0f,
+	0.0f, 1.0f,0.0f, // triangle 2 : end
+	1.0f,0.0f, 1.0f,
+	0.0f,0.0f,0.0f,
+	1.0f,0.0f,0.0f,
+	1.0f, 1.0f,0.0f,
+	1.0f,0.0f,0.0f,
+	0.0f,0.0f,0.0f,
+	0.0f,0.0f,0.0f,
+	0.0f, 1.0f, 1.0f,
+	0.0f, 1.0f,0.0f,
+	1.0f,0.0f, 1.0f,
+	0.0f,0.0f, 1.0f,
+	0.0f,0.0f,0.0f,
+	0.0f, 1.0f, 1.0f,
+	0.0f,0.0f, 1.0f,
+	1.0f,0.0f, 1.0f,
 	1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
+	1.0f,0.0f,0.0f,
+	1.0f, 1.0f,0.0f,
+	1.0f,0.0f,0.0f,
 	1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f,
+	1.0f,0.0f, 1.0f,
 	1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f,-1.0f,
-	-1.0f, 1.0f,-1.0f,
+	1.0f, 1.0f,0.0f,
+	0.0f, 1.0f,0.0f,
 	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
+	0.0f, 1.0f,0.0f,
+	0.0f, 1.0f, 1.0f,
 	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f
+	0.0f, 1.0f, 1.0f,
+	1.0f,0.0f, 1.0f
 };
 
 static const GLfloat g_color_buffer_data[] = {
@@ -113,15 +123,17 @@ int	main() {
 	/*temp*/
 	while(App.IsClosed() == false) {
 		/*temp*/
+		getDeltaTime();
+		std::cout << 1 / DeltaTime << std::endl;
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUseProgram(ProgramID);
 
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
-		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
-		glDisableVertexAttribArray(0);
+		// glEnableVertexAttribArray(0);
+		// glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+		// glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+		// glDisableVertexAttribArray(0);
 
 		glEnableVertexAttribArray(1);
 		glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
@@ -129,10 +141,42 @@ int	main() {
 
 		Player.Movements(App.GiveWindow());
 		glm::mat4 Model = glm::mat4(1.0f);
+		for (float i = 0; i < 16; i += 1) {
+			for (float y = 0; y < 16; y += 1) {
+				for (float y = 0; y < 16; y += 1) {
+					glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &Player.GiveProjection()[0][0]);
+					glUniformMatrix4fv(ViewID, 1, GL_FALSE, &Player.GiveView()[0][0]);
+					glUniformMatrix4fv(ModelID, 1, GL_FALSE, &Model[0][0]);
 
-		glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &Player.GiveProjection()[0][0]);
-		glUniformMatrix4fv(ViewID, 1, GL_FALSE, &Player.GiveView()[0][0]);
-		glUniformMatrix4fv(ModelID, 1, GL_FALSE, &Model[0][0]);
+					glEnableVertexAttribArray(0);
+					glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+					glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+					glDisableVertexAttribArray(0);
+					Model = glm::translate(Model, glm::vec3(0, 0, 2));
+				}
+				glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &Player.GiveProjection()[0][0]);
+				glUniformMatrix4fv(ViewID, 1, GL_FALSE, &Player.GiveView()[0][0]);
+				glUniformMatrix4fv(ModelID, 1, GL_FALSE, &Model[0][0]);
+
+				glEnableVertexAttribArray(0);
+				glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+				glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+				glDisableVertexAttribArray(0);
+				Model = glm::translate(Model, glm::vec3(0, 2, -32));
+			}
+			glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &Player.GiveProjection()[0][0]);
+			glUniformMatrix4fv(ViewID, 1, GL_FALSE, &Player.GiveView()[0][0]);
+			glUniformMatrix4fv(ModelID, 1, GL_FALSE, &Model[0][0]);
+
+			glEnableVertexAttribArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+			glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
+			glDisableVertexAttribArray(0);
+			Model = glm::translate(Model, glm::vec3(2, -32, 0));
+		}
 		/*temp*/
 	}
 }

@@ -17,6 +17,7 @@ bool	WindowApp::InitWindow() {
 		return (true);
 	}
 	glfwMakeContextCurrent(this->_window);
+	glfwSwapInterval( 0 );
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK) {
 		std::cerr << "Failed to initialize GLEW" << std::endl;
