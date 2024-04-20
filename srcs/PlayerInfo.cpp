@@ -8,7 +8,7 @@ void	PlayerInfo::InitPlayer() {
 	this->_MouseSpeed = 0.005f;
 	this->_Speed = 5.0f;
 	this->_FOV = 80;
-	this->_Position = {30, 30, -30};
+	this->_Position = {-2, 10, -10};
 	this->_Direction = {cos(this->_VerticalAngle) * sin(this->_HorizontalAngle), sin(this->_VerticalAngle), cos(this->_VerticalAngle) * cos(this->_HorizontalAngle)};
 	this->_Right = {sin(this->_HorizontalAngle - 3.14f/2.0f), 0, cos(this->_HorizontalAngle - 3.14f/2.0f)};
 	this->_Up = glm::cross(this->_Right, this->_Direction);
@@ -50,6 +50,7 @@ void	PlayerInfo::Movements(GLFWwindow *Window) {
 		this->_Speed = 10;
 	else
 		this->_Speed = 5;
+	// std::cout << this->_Position.x << " " << this->_Position.y << " " << this->_Position.z << std::endl;
 	this->_Direction = {cos(this->_VerticalAngle) * sin(this->_HorizontalAngle), sin(this->_VerticalAngle), cos(this->_VerticalAngle) * cos(this->_HorizontalAngle)};
 	this->_Right = {sin(this->_HorizontalAngle - 3.14f/2.0f), 0, cos(this->_HorizontalAngle - 3.14f/2.0f)};
 	this->_Up = glm::cross(this->_Right, this->_Direction);
