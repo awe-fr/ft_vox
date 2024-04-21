@@ -11,7 +11,7 @@ LDFLAGS = -Iinclude -Llib -lglfw -lGLEW -lGL -lX11 -lpthread -lXrandr -lXi -ldl 
 all: 		$(NAME)
 
 $(NAME):	$(OBJS)
-		g++ $(CFLAGS) -o $(NAME) $(SRCS) $(LDFLAGS)
+		g++ $(CFLAGS) -o $(NAME) $(SRCS) $(LDFLAGS) -g
 
 test: 		$(NAME)
 		./$(NAME)

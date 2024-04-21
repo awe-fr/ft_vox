@@ -4,7 +4,7 @@
 
 class	Chunk {
 	private:
-		int map[16][16][16];
+		int map[16][16][256];
 		GLfloat	*g_vertex_buffer_data;
 		GLuint vertexbuffer;
 		std::vector<glm::vec3> see;

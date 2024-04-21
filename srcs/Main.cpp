@@ -197,7 +197,7 @@ int	main() {
 					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 					glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 					glDisableVertexAttribArray(0);
-					Model = glm::translate(Model, glm::vec3(1, 0, 0));
+					// Model = glm::translate(Model, glm::vec3(1, 0, 0));
 				}
 				glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &Player.GiveProjection()[0][0]);
 				glUniformMatrix4fv(ViewID, 1, GL_FALSE, &Player.GiveView()[0][0]);
@@ -208,9 +208,9 @@ int	main() {
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 				glDrawArrays(GL_TRIANGLES, 0, Map.GiveVertexBufferSize());
 				glDisableVertexAttribArray(0);
-				Model = glm::translate(Model, glm::vec3(-16, 0, 1));
+				// Model = glm::translate(Model, glm::vec3(-16, 0, 1));
 			}
-			Model = glm::translate(Model, glm::vec3(0, 1, -16));
+			// Model = glm::translate(Model, glm::vec3(0, 1, -16));
 		}
 		/*temp*/
 	}
