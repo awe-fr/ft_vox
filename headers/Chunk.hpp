@@ -4,15 +4,15 @@
 
 class	Chunk {
 	private:
-		int map[16][16][256];
-		GLfloat	*g_vertex_buffer_data;
-		GLuint vertexbuffer;
-		std::vector<glm::vec3> see;
+		std::vector<glm::vec3> _VertexBuffer;
+		GLuint					_GlVertexBuffer;
+		GLuint					_VAO;
+		int						_Map[16][16][256];
 	public:
-		void	init();
-		void	which_can_see();
-		void	fill();
-		std::vector<glm::vec3> GiveVertexBuffer();
-		int	GiveVertexBufferSize();
-		// void	FillBuffer();
+		std::vector<glm::vec3>	GiveVertexBuffer();
+		GLuint					GiveGlVertexBuffer();
+		void					which_can_see();
+		void					init();
+		void					fill();
+		int						GiveVertexBufferSize();
 };
