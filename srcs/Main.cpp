@@ -93,3 +93,8 @@ int	main() {
 		/*temp*/
 	}
 }
+
+void DestroyTextures() {
+	//don't forget to implement it
+	//glDeleteTextures(1, &texture);
+}

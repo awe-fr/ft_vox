@@ -4,7 +4,7 @@
 
 class	Chunk {
 	private:
-		std::vector<glm::vec3> _VertexBuffer;
+		std::vector<glm::vec3>	_VertexBuffer;
 		GLuint					_GlVertexBuffer;
 		GLuint					_VAO;
 		int						_Map[16][16][256];
