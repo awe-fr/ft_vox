@@ -2,18 +2,18 @@
 
 layout(location = 0) in vec3 vertexPosition_modelspace;
 layout(location = 1) in vec2 TextureCoor;
-layout(location = 2) in vec3 ColorVertex;
+// layout(location = 2) in vec3 ColorVertex;
 
 uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Projection;
 
-out vec3 color;
+// out vec3 color;
 out vec2 TexCoor;
 
 void main(){
     mat4 MVP = Projection * View * Model;
     gl_Position =  MVP * vec4(vertexPosition_modelspace,1);
-    color = ColorVertex;
+    // color = ColorVertex;
     TexCoor = TextureCoor;
 }

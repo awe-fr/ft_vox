@@ -17,9 +17,14 @@ void	Chunk::fill() {
 void	Chunk::init() {
 	glGenVertexArrays(1, &this->_VAO);
 	glBindVertexArray(this->_VAO);
+
 	glGenBuffers(1, &this->_GlVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, this->_GlVertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, this->_VertexBuffer.size() * sizeof(glm::vec3), &this->_VertexBuffer[0], GL_DYNAMIC_DRAW);
+
+	glGenBuffers(1, &this->_GlTextureBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, this->_GlTextureBuffer);
+	glBufferData(GL_ARRAY_BUFFER, this->_TextureBuffer.size() * sizeof(glm::vec2), &this->_TextureBuffer[0], GL_DYNAMIC_DRAW);
 }
 
 void	Chunk::which_can_see() {
@@ -37,6 +42,12 @@ void	Chunk::which_can_see() {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
 					else if (this->_Map[y][x][z + 1] == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
@@ -45,6 +56,12 @@ void	Chunk::which_can_see() {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
 					if (z == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
@@ -53,22 +70,40 @@ void	Chunk::which_can_see() {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
 					else if (this->_Map[y][x][z - 1] == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
-						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
+						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
+						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
+						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
-					if (x == 15) {
-						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
+					if (x == 15) { //ok
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
+						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
 					}
 					else if (this->_Map[y][x + 1][z] == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
@@ -77,14 +112,26 @@ void	Chunk::which_can_see() {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
-					if (x == 0) {
+					if (x == 0) { //ok
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
 					}
 					else if (this->_Map[y][x - 1][z] == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
@@ -93,6 +140,12 @@ void	Chunk::which_can_see() {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
 					if (y == 15) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
@@ -101,6 +154,12 @@ void	Chunk::which_can_see() {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
 					else if (this->_Map[y + 1][x][z] == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
@@ -109,14 +168,26 @@ void	Chunk::which_can_see() {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
-					if (y == 0) {
+					if (y == 0) { //ok
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
 					else if (this->_Map[y - 1][x][z] == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
@@ -125,6 +196,12 @@ void	Chunk::which_can_see() {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(0, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(0, 0));
+						this->_TextureBuffer.push_back(glm::vec2(1, 1));
+						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
 				}
 				z++;
@@ -147,4 +224,16 @@ int	Chunk::GiveVertexBufferSize() {
 
 GLuint	Chunk::GiveGlVertexBuffer() {
 	return (this->_GlVertexBuffer);
+}
+
+std::vector<glm::vec2>	Chunk::GiveTextureBuffer() {
+	return (this->_TextureBuffer);
+}
+
+int	Chunk::GiveTextureBufferSize() {
+	return (this->_TextureBuffer.size());
+}
+
+GLuint	Chunk::GiveGlTextureBuffer() {
+	return (this->_GlTextureBuffer);
 }
