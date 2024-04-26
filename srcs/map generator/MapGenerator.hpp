@@ -4,6 +4,8 @@
 #include <math.h>
 #include <iostream>
 
+#include <MLX42/MLX42.h>
+
 class Chunck
 {
 	public:
@@ -24,6 +26,7 @@ class Chunck
 		const static size_t	SIZE = 16;
 		const static size_t	MAX_HEIGHT = 256;
 		const static size_t SEA_LEVEL = 127;
+		constexpr static float SCALE = 5.f;
 
 		void			Generate(void);
 		unsigned char	getValue(size_t x, size_t y);

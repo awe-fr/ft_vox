@@ -2,7 +2,7 @@
 
 Chunck::Chunck(void) : _coord{0, 0}, _is_generated(false) {}
 
-Chunck::Chunck(int x, int y) : _coord{x, y}
+Chunck::Chunck(int x, int y) : _coord{x, y}, _is_generated(false)
 {
 	this->Generate();
 }
@@ -26,10 +26,10 @@ void Chunck::Generate(void)
 	
 	for (size_t i = 0; i < Chunck::SIZE; i++)
 	{
-		float y = (float)this->_coord[1] / 10.f + ((float)i / (float)Chunck::SIZE) / 10.f;
+		float y = (float)this->_coord[1] / Chunck::SCALE + ((float)i / (float)Chunck::SIZE) / Chunck::SCALE;
 		for (size_t j = 0; j < Chunck::SIZE; j++)
 		{
-			float x = (float)this->_coord[0] / 10.f + ((float)j / (float)Chunck::SIZE) / 10.f;
+			float x = (float)this->_coord[0] / Chunck::SCALE + ((float)j / (float)Chunck::SIZE) / Chunck::SCALE;
 			float noise = SimplexNoise(x, y);
 			this->_map[i][j] = (unsigned char)((float)Chunck::SEA_LEVEL + (noise * (float)(Chunck::MAX_HEIGHT - Chunck::SEA_LEVEL)));
 		}
@@ -41,7 +41,7 @@ void Chunck::Generate(void)
 unsigned char Chunck::getValue(size_t x, size_t y)
 {
 	if (!this->_is_generated)
-		throw Chunck::OutOfBoundsException();
+		throw Chunck::NotGeneratedException();
 
 	if (x >= Chunck::SIZE || y >= Chunck::SIZE)
 		throw Chunck::OutOfBoundsException();
@@ -150,7 +150,7 @@ float	SimplexNoise(float x, float y)
 	}
 	
 	// Add contributions from each corner to get the final noise value.
-	// The result is scaled to return values in the interval [-1,1].
+	// The result is Chunck::SCALEd to return values in the interval [-1,1].
 	
 	return 70.0 * (n0 + n1 + n2);
 }
