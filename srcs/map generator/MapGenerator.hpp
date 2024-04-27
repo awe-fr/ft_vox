@@ -5,12 +5,13 @@
 #include <iostream>
 
 #include <MLX42/MLX42.h>
+#include "Biome.hpp"
 
 class Chunck
 {
 	public:
 		Chunck(void);
-		Chunck(int x, int y);
+		Chunck(int x, int y, Biome biome);
 		~Chunck(void);
 
 		class NotGeneratedException : public std::exception
@@ -25,8 +26,8 @@ class Chunck
 
 		const static size_t	SIZE = 16;
 		const static size_t	MAX_HEIGHT = 256;
-		const static size_t SEA_LEVEL = 127;
-		constexpr static float SCALE = 5.f;
+		const static size_t SEA_LEVEL = 42;
+		constexpr static float SCALE = 2.f;
 
 		void			Generate(void);
 		unsigned char	getValue(size_t x, size_t y);
@@ -35,6 +36,7 @@ class Chunck
 		unsigned char	_map[SIZE][SIZE];
 		const int		_coord[2];
 		bool			_is_generated;
+		Biome			_biome;
 };
 
 // class Map

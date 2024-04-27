@@ -1,8 +1,8 @@
 #include "MapGenerator.hpp"
 
-Chunck::Chunck(void) : _coord{0, 0}, _is_generated(false) {}
+Chunck::Chunck(void) : _coord{0, 0}, _is_generated(false), _biome(Plain()) {}
 
-Chunck::Chunck(int x, int y) : _coord{x, y}, _is_generated(false)
+Chunck::Chunck(int x, int y, Biome biome) : _coord{x, y}, _is_generated(false), _biome(biome)
 {
 	this->Generate();
 }
@@ -23,6 +23,9 @@ void Chunck::Generate(void)
 {
 	if (this->_is_generated)
 		return;
+
+	float biome_half = (float)(this->_biome.max_height - this->_biome.min_height) / 2.f;
+	float biome_avg = (float)this->_biome.min_height + biome_half;
 	
 	for (size_t i = 0; i < Chunck::SIZE; i++)
 	{
@@ -31,7 +34,7 @@ void Chunck::Generate(void)
 		{
 			float x = (float)this->_coord[0] / Chunck::SCALE + ((float)j / (float)Chunck::SIZE) / Chunck::SCALE;
 			float noise = SimplexNoise(x, y);
-			this->_map[i][j] = (unsigned char)((float)Chunck::SEA_LEVEL + (noise * (float)(Chunck::MAX_HEIGHT - Chunck::SEA_LEVEL)));
+			this->_map[i][j] = (unsigned char)(biome_avg + (biome_half * this->_biome.topology_curve(noise)));
 		}
 	}
 

@@ -1,7 +1,7 @@
 NAME=map
 CC=c++
 FLAGS=-Wall -Werror -Wextra -g
-SRCS=main.cpp MapGenerator.cpp
+SRCS=main.cpp MapGenerator.cpp Biome.cpp
 
 MLX_DIR = MLX42/
 MLX_LIB = MLX42/build/libmlx42.a

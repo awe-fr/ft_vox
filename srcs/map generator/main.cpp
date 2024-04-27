@@ -41,7 +41,7 @@ int main(void)
     //         std::cout << (int)test11.getValue(j, i) << " ";
     //     std::cout << std::endl;
     // }
-    size_t block_size = 5;
+    size_t block_size = 20;
     size_t height = 994;
     size_t width = 1920;
     int start_x = 0;
@@ -54,7 +54,7 @@ int main(void)
     for (size_t i = start_y; i < nb_chunk_y; i++)
     {
         for (size_t j = start_x; j < nb_chunk_x; j++)
-            map[i][j] = new Chunck(j, i);
+            map[i][j] = new Chunck(j, i, Mountain());
     }
 
     (void)map;
@@ -77,16 +77,18 @@ int main(void)
 
             unsigned char h = map[chunk_y][chunk_x]->getValue(chunk_val_x, chunk_val_y);
             unsigned color;
-            if (h < Chunck::SEA_LEVEL)
-                color = rgba_to_long(0, 127, 255, (int)(((float)h / (float)Chunck::SEA_LEVEL) * 255.f));
-            else if (h < 210)
-                color = rgba_to_long(0, 216, 58, (int)(((float)h / 210.f) * 255.f));
+            if (h < 42)
+                color = rgba_to_long(0, 127, 255, (int)(((float)h / 42.f) * 255.f));
+            else if (h < 60)
+                color = rgba_to_long(0, 216, 58, (int)(((float)h / 60.f) * 255.f));
+            else if (h < 90)
+                color = rgba_to_long(206, 206, 206, (int)(((float)h / 90.f) * 255.f));
             else
                 color = rgba_to_long(255, 255, 255, (int)(((float)h / 255.f) * 255.f));
             mlx_put_pixel(img, j, i, color);
         }
     }
-    
+
 	if (mlx_image_to_window(mlx, img, 0, 0) == -1)
 		exit(EXIT_FAILURE);
 
