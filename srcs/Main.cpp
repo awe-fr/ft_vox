@@ -23,22 +23,9 @@ int	main() {
 	Map.which_can_see();
 	Map.init();
 
-	// std::vector<glm::vec3> UV = Map.GiveVertexBuffer();
-	// GLfloat g_uv_buffer_data[UV.size() * 2];
-	// unsigned long int b = 0;
-	// while (b < UV.size() * 2) {
-	// 	g_uv_buffer_data[b] = 0;
-	// 	g_uv_buffer_data[b + 1] = 0;
-	// 	g_uv_buffer_data[b + 2] = 0;
-	// 	g_uv_buffer_data[b + 3] = 1;
-	// 	g_uv_buffer_data[b + 4] = 1;
-	// 	g_uv_buffer_data[b + 5] = 1;
-	// 	b += 6;
-	// }
-
 	GLuint	ProgramID = LoadShaders("./shaders/shader.vert", "./shaders/shader.frag");
 	
-	GLuint textu = loadpng("./textures/dirt.png");
+	GLuint textu = loadpng("./textures/blocks.png");
 
 
 	GLuint tex0Uni = glGetUniformLocation(ProgramID, "tex");
