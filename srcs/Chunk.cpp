@@ -35,7 +35,7 @@ void	Chunk::which_can_see() {
 		while (x < 16) {
 			while (z < 256) {
 				if (this->_Map[y][x][z] != 0) {
-					if (z == 255) { //ok
+					if (z == 255) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
@@ -49,7 +49,7 @@ void	Chunk::which_can_see() {
 						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 						this->_TextureBuffer.push_back(glm::vec2(1, 1));
 					}
-					else if (this->_Map[y][x][z + 1] == 0) { //ok
+					else if (this->_Map[y][x][z + 1] == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
@@ -63,7 +63,7 @@ void	Chunk::which_can_see() {
 						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 						this->_TextureBuffer.push_back(glm::vec2(1, 1));
 					}
-					if (z == 0) { //ok
+					if (z == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
@@ -77,7 +77,7 @@ void	Chunk::which_can_see() {
 						this->_TextureBuffer.push_back(glm::vec2(1, 1));
 						this->_TextureBuffer.push_back(glm::vec2(0, 1));
 					}
-					else if (this->_Map[y][x][z - 1] == 0) { //ok
+					else if (this->_Map[y][x][z - 1] == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
@@ -91,7 +91,7 @@ void	Chunk::which_can_see() {
 						this->_TextureBuffer.push_back(glm::vec2(1, 1));
 						this->_TextureBuffer.push_back(glm::vec2(0, 1));
 					}
-					if (x == 15) { //ok
+					if (x == 15) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
@@ -119,7 +119,7 @@ void	Chunk::which_can_see() {
 						this->_TextureBuffer.push_back(glm::vec2(0, 1));
 						this->_TextureBuffer.push_back(glm::vec2(0, 0));
 					}
-					if (x == 0) { //ok
+					if (x == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
@@ -147,7 +147,7 @@ void	Chunk::which_can_see() {
 						this->_TextureBuffer.push_back(glm::vec2(1, 1));
 						this->_TextureBuffer.push_back(glm::vec2(0, 1));
 					}
-					if (y == 15) { //ok
+					if (y == 15) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
@@ -175,7 +175,7 @@ void	Chunk::which_can_see() {
 						this->_TextureBuffer.push_back(glm::vec2(0, 0));
 						this->_TextureBuffer.push_back(glm::vec2(1, 0));
 					}
-					if (y == 0) { //ok
+					if (y == 0) {
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
 						this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
