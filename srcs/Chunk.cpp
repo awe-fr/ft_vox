@@ -7,7 +7,7 @@ void	Chunk::fill() {
 				if (z % 2 == 0 && x % 2 == 0 && y % 2 == 0)
 					this->_Map[y][x][z] = 5;
 				else
-					this->_Map[y][x][z] = 3;
+					this->_Map[y][x][z] = 0;
 			}
 		}
 	}
@@ -177,12 +177,12 @@ void	Chunk::TextureAssignBotId(int id, float *a, float *b, float *c, float *d) {
 void	Chunk::VertexUp(int x, int y, int z) {
 	float a, b, c, d;
 	TextureAssignTopId(this->_Map[y][x][z], &a, &b, &c, &d);
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 1.0f, (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 1.0f, (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0f, (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 1.0f, (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0f, (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0f, (y * 1) + 1.0001f));
 	this->_TextureBuffer.push_back(glm::vec2(c, a));
 	this->_TextureBuffer.push_back(glm::vec2(c, b));
 	this->_TextureBuffer.push_back(glm::vec2(d, b));
@@ -194,12 +194,12 @@ void	Chunk::VertexUp(int x, int y, int z) {
 void	Chunk::VertexDown(int x, int y, int z) {
 	float a, b, c, d;
 	TextureAssignBotId(this->_Map[y][x][z], &a, &b, &c, &d);
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 0.0f, (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 0.0f, (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 0.0f, (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 0.0f, (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 0.0f, (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 0.0f, (y * 1) + (-0.0001f)));
 	this->_TextureBuffer.push_back(glm::vec2(c, b));
 	this->_TextureBuffer.push_back(glm::vec2(d, b));
 	this->_TextureBuffer.push_back(glm::vec2(d, a));
@@ -211,12 +211,12 @@ void	Chunk::VertexDown(int x, int y, int z) {
 void	Chunk::VertexRight(int x, int y, int z) {
 	float a, b, c, d;
 	TextureAssignId(this->_Map[y][x][z], &a, &b, &c, &d);
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + (-0.0001f), (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + (-0.0001f), (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0001f, (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + (-0.0001f), (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0001f, (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0001f, (y * 1) + (-0.0001f)));
 	this->_TextureBuffer.push_back(glm::vec2(c, b));
 	this->_TextureBuffer.push_back(glm::vec2(d, b));
 	this->_TextureBuffer.push_back(glm::vec2(d, a));
@@ -229,12 +229,12 @@ void	Chunk::VertexRight(int x, int y, int z) {
 void	Chunk::VertexLeft(int x, int y, int z) {
 	float a, b, c, d;
 	TextureAssignId(this->_Map[y][x][z], &a, &b, &c, &d);
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + (-0.0001f), (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0001f, (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0001f, (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + (-0.0001f), (y * 1) + (-0.0001f)));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0001f, (y * 1) + 1.0001f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + (-0.0001f), (y * 1) + 1.0001f));
 	this->_TextureBuffer.push_back(glm::vec2(d, b));
 	this->_TextureBuffer.push_back(glm::vec2(d, a));
 	this->_TextureBuffer.push_back(glm::vec2(c, a));
@@ -246,12 +246,12 @@ void	Chunk::VertexLeft(int x, int y, int z) {
 void	Chunk::VertexBack(int x, int y, int z) {
 	float a, b, c, d;
 	TextureAssignId(this->_Map[y][x][z], &a, &b, &c, &d);
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 0.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.00001f, (z * 1) + 1.00001f, (y * 1) + 0.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + (-0.0001f), (y * 1) + 0.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.00001f, (y * 1) + 0.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.00001f, (z * 1) + 1.00001f, (y * 1) + 0.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.00001f, (z * 1) + (-0.0001f), (y * 1) + 0.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + (-0.0001f), (y * 1) + 0.0f));
 	this->_TextureBuffer.push_back(glm::vec2(c, a));
 	this->_TextureBuffer.push_back(glm::vec2(d, b));
 	this->_TextureBuffer.push_back(glm::vec2(d, a));
@@ -263,12 +263,12 @@ void	Chunk::VertexBack(int x, int y, int z) {
 void	Chunk::VertexFront(int x, int y, int z) {
 	float a, b, c, d;
 	TextureAssignId(this->_Map[y][x][z], &a, &b, &c, &d);
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
-	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 0.0f, (y * 1) + 1.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 1.0001f, (y * 1) + 1.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0001f, (y * 1) + 1.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + (-0.0001f), (y * 1) + 1.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0001f, (y * 1) + 1.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + (-0.0001f), (y * 1) + 1.0f));
+	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + (-0.0001f), (y * 1) + 1.0f));
 	this->_TextureBuffer.push_back(glm::vec2(d, a));
 	this->_TextureBuffer.push_back(glm::vec2(c, a));
 	this->_TextureBuffer.push_back(glm::vec2(d, b));
@@ -276,10 +276,6 @@ void	Chunk::VertexFront(int x, int y, int z) {
 	this->_TextureBuffer.push_back(glm::vec2(c, b));
 	this->_TextureBuffer.push_back(glm::vec2(d, b));
 }
-
-
-
-
 
 std::vector<glm::vec3>	Chunk::GiveVertexBuffer() {
 	return (this->_VertexBuffer);
