@@ -5,7 +5,7 @@
 class Map
 {
     public:
-        Map(void);
+        Map(Biome biome);
         ~Map(void);
 
         const static size_t RENDER_DISTANCE = 10;
@@ -19,4 +19,5 @@ class Map
 
     private:
         Chunk *_map[RENDER_DISTANCE * 2 + 1][RENDER_DISTANCE * 2 + 1];
+        Biome _biome;
 };

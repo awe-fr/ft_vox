@@ -21,13 +21,14 @@ size_t get_block_size(size_t max_width, size_t max_height)
 
 int main(void)
 {
-    size_t max_width = 1920;
-    size_t max_height = 994;
+    size_t max_width = 2560;
+    size_t max_height = 1300;
     size_t block_size = get_block_size(max_width, max_height);
     size_t width = block_size * ((Map::RENDER_DISTANCE * 2 + 1) * Chunk::SIZE);
     size_t height = block_size * ((Map::RENDER_DISTANCE * 2 + 1) * Chunk::SIZE);
 
-    Map map;
+    Biome biome = Plain();
+    Map map(biome);
 
     mlx_t *mlx = mlx_init(width, height, "map", false);
 	if (!mlx)
