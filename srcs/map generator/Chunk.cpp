@@ -1,7 +1,5 @@
 #include "Chunk.hpp"
 
-Chunk::Chunk(void) : _coord{0, 0}, _is_generated(false), _biome(Plain()) {}
-
 Chunk::Chunk(int x, int y, Biome biome) : _coord{x, y}, _is_generated(false), _biome(biome)
 {
 	this->Generate();

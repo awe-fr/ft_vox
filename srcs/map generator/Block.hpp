@@ -4,6 +4,8 @@
 class Block
 {
     public:
+        ~Block(void);
+        
         const std::string name;
 
         const std::array<float, 4> getTextureTop(void);
@@ -12,7 +14,6 @@ class Block
 
     protected:
         Block(const std::string name, const std::array<float, 4> texture_top, const std::array<float, 4> texture_bottom, const std::array<float, 4> texture_side);
-        ~Block(void);
 
         const std::array<float, 4> _texture_top;
         const std::array<float, 4> _texture_bottom;

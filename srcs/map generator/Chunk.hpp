@@ -10,7 +10,6 @@
 class Chunk
 {
 	public:
-		Chunk(void);
 		Chunk(int x, int y, Biome biome);
 		~Chunk(void);
 

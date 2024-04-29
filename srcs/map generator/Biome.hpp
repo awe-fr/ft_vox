@@ -6,6 +6,8 @@
 class Biome
 {
 	public:
+        ~Biome(void);
+
         const std::string name;
 		const size_t min_height;
 		const size_t max_height;
