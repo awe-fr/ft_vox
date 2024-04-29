@@ -1,9 +1,9 @@
-#include "MapGenerator.hpp"
+#include "Map.hpp"
 #include <iostream>
 
 size_t get_nb_chunk(size_t length, size_t block_size)
 {
-    return (length / block_size) / Chunck::SIZE;
+    return (length / block_size) / Chunk::SIZE;
 }
 
 unsigned long	rgba_to_long(int r, int g, int b, int a)
@@ -12,52 +12,22 @@ unsigned long	rgba_to_long(int r, int g, int b, int a)
 		+ ((b & 0xff) << 8) + (a & 0xff));
 }
 
+size_t get_block_size(size_t max_width, size_t max_height)
+{
+    if (max_height <= max_width)
+        return max_height / ((Map::RENDER_DISTANCE * 2 + 1) * Chunk::SIZE);
+    return max_width / ((Map::RENDER_DISTANCE * 2 + 1) * Chunk::SIZE);
+}
+
 int main(void)
 {
-    // Chunck test_10(-1, 0);
-    // Chunck test_11(-1, 1);
-    // Chunck test00(0, 0);
-    // Chunck test01(0, 1);
-    // Chunck test10(1, 0);
-    // Chunck test11(1, 1);
+    size_t max_width = 1920;
+    size_t max_height = 994;
+    size_t block_size = get_block_size(max_width, max_height);
+    size_t width = block_size * ((Map::RENDER_DISTANCE * 2 + 1) * Chunk::SIZE);
+    size_t height = block_size * ((Map::RENDER_DISTANCE * 2 + 1) * Chunk::SIZE);
 
-    // for (size_t i = 0; i < Chunck::SIZE; i++)
-    // {
-    //     for (size_t j = 0; j < Chunck::SIZE; j++)
-    //         std::cout << (int)test_10.getValue(j, i) << " ";
-    //     for (size_t j = 0; j < Chunck::SIZE; j++)
-    //         std::cout << (int)test00.getValue(j, i) << " ";
-    //     for (size_t j = 0; j < Chunck::SIZE; j++)
-    //         std::cout << (int)test10.getValue(j, i) << " ";
-    //     std::cout << std::endl;
-    // }
-    // for (size_t i = 0; i < Chunck::SIZE; i++)
-    // {
-    //     for (size_t j = 0; j < Chunck::SIZE; j++)
-    //         std::cout << (int)test_11.getValue(j, i) << " ";
-    //     for (size_t j = 0; j < Chunck::SIZE; j++)
-    //         std::cout << (int)test01.getValue(j, i) << " ";
-    //     for (size_t j = 0; j < Chunck::SIZE; j++)
-    //         std::cout << (int)test11.getValue(j, i) << " ";
-    //     std::cout << std::endl;
-    // }
-    size_t block_size = 20;
-    size_t height = 994;
-    size_t width = 1920;
-    int start_x = 0;
-    int start_y = 0;
-
-    size_t nb_chunk_x = get_nb_chunk(width, block_size);
-    size_t nb_chunk_y = get_nb_chunk(height, block_size);
-
-    Chunck *map[nb_chunk_y][nb_chunk_x];
-    for (size_t i = start_y; i < nb_chunk_y; i++)
-    {
-        for (size_t j = start_x; j < nb_chunk_x; j++)
-            map[i][j] = new Chunck(j, i, Mountain());
-    }
-
-    (void)map;
+    Map map;
 
     mlx_t *mlx = mlx_init(width, height, "map", false);
 	if (!mlx)
@@ -66,16 +36,16 @@ int main(void)
 	if (!img)
 		exit(EXIT_FAILURE);
 
-    for (size_t i = 0; i < nb_chunk_y * Chunck::SIZE * block_size; i++)
+    for (size_t i = 0; i < (Map::RENDER_DISTANCE * 2 + 1) * Chunk::SIZE * block_size; i++)
     {
-        size_t chunk_y = i / (Chunck::SIZE * block_size);
-        size_t chunk_val_y = (i / block_size) % Chunck::SIZE;
+        size_t chunk_y = i / (Chunk::SIZE * block_size);
+        size_t chunk_val_y = (i / block_size) % Chunk::SIZE;
         for (size_t j = 0; j < width; j++)
         {
-            size_t chunk_x = j / (Chunck::SIZE * block_size);
-            size_t chunk_val_x = (j / block_size) % Chunck::SIZE;
+            size_t chunk_x = j / (Chunk::SIZE * block_size);
+            size_t chunk_val_x = (j / block_size) % Chunk::SIZE;
 
-            unsigned char h = map[chunk_y][chunk_x]->getValue(chunk_val_x, chunk_val_y);
+            unsigned char h = map.getChunk(chunk_x, chunk_y)->getValue(chunk_val_x, chunk_val_y);
             unsigned color;
             if (h < 42)
                 color = rgba_to_long(0, 127, 255, (int)(((float)h / 42.f) * 255.f));

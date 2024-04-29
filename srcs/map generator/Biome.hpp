@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stddef.h>
 
 class Biome
@@ -25,5 +27,12 @@ class Mountain : public Biome
         Mountain(void);
 };
 
+class Desert : public Biome
+{
+    public:
+        Desert(void);
+};
+
 float plain_curve(float noise);
 float mountain_curve(float noise);
+float desert_curve(float noise);

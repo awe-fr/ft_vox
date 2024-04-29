@@ -1,25 +1,25 @@
-#include "MapGenerator.hpp"
+#include "Chunk.hpp"
 
-Chunck::Chunck(void) : _coord{0, 0}, _is_generated(false), _biome(Plain()) {}
+Chunk::Chunk(void) : _coord{0, 0}, _is_generated(false), _biome(Plain()) {}
 
-Chunck::Chunck(int x, int y, Biome biome) : _coord{x, y}, _is_generated(false), _biome(biome)
+Chunk::Chunk(int x, int y, Biome biome) : _coord{x, y}, _is_generated(false), _biome(biome)
 {
 	this->Generate();
 }
 
-Chunck::~Chunck(void) {}
+Chunk::~Chunk(void) {}
 
-const char *Chunck::NotGeneratedException::what() const throw()
+const char *Chunk::NotGeneratedException::what() const throw()
 {
-	return "Chunck not generated";
+	return "Chunk not generated";
 }
 
-const char *Chunck::OutOfBoundsException::what() const throw()
+const char *Chunk::OutOfBoundsException::what() const throw()
 {
 	return "Value out of bounds";
 }
 
-void Chunck::Generate(void)
+void Chunk::Generate(void)
 {
 	if (this->_is_generated)
 		return;
@@ -27,12 +27,12 @@ void Chunck::Generate(void)
 	float biome_half = (float)(this->_biome.max_height - this->_biome.min_height) / 2.f;
 	float biome_avg = (float)this->_biome.min_height + biome_half;
 	
-	for (size_t i = 0; i < Chunck::SIZE; i++)
+	for (size_t i = 0; i < Chunk::SIZE; i++)
 	{
-		float y = (float)this->_coord[1] / Chunck::SCALE + ((float)i / (float)Chunck::SIZE) / Chunck::SCALE;
-		for (size_t j = 0; j < Chunck::SIZE; j++)
+		float y = (float)this->_coord[1] / Chunk::SCALE + ((float)i / (float)Chunk::SIZE) / Chunk::SCALE;
+		for (size_t j = 0; j < Chunk::SIZE; j++)
 		{
-			float x = (float)this->_coord[0] / Chunck::SCALE + ((float)j / (float)Chunck::SIZE) / Chunck::SCALE;
+			float x = (float)this->_coord[0] / Chunk::SCALE + ((float)j / (float)Chunk::SIZE) / Chunk::SCALE;
 			float noise = SimplexNoise(x, y);
 			this->_map[i][j] = (unsigned char)(biome_avg + (biome_half * this->_biome.topology_curve(noise)));
 		}
@@ -41,15 +41,25 @@ void Chunck::Generate(void)
 	this->_is_generated = true;
 }
 
-unsigned char Chunck::getValue(size_t x, size_t y)
+unsigned char Chunk::getValue(size_t x, size_t y)
 {
 	if (!this->_is_generated)
-		throw Chunck::NotGeneratedException();
+		throw Chunk::NotGeneratedException();
 
-	if (x >= Chunck::SIZE || y >= Chunck::SIZE)
-		throw Chunck::OutOfBoundsException();
+	if (x >= Chunk::SIZE || y >= Chunk::SIZE)
+		throw Chunk::OutOfBoundsException();
 
 	return this->_map[y][x];
+}
+
+int Chunk::getCoordX(void)
+{
+	return this->_coord[0];
+}
+
+int Chunk::getCoordY(void)
+{
+	return this->_coord[1];
 }
 
 
@@ -153,7 +163,7 @@ float	SimplexNoise(float x, float y)
 	}
 	
 	// Add contributions from each corner to get the final noise value.
-	// The result is Chunck::SCALEd to return values in the interval [-1,1].
+	// The result is Chunk::SCALEd to return values in the interval [-1,1].
 	
 	return 70.0 * (n0 + n1 + n2);
 }

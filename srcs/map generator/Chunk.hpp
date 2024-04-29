@@ -7,12 +7,12 @@
 #include <MLX42/MLX42.h>
 #include "Biome.hpp"
 
-class Chunck
+class Chunk
 {
 	public:
-		Chunck(void);
-		Chunck(int x, int y, Biome biome);
-		~Chunck(void);
+		Chunk(void);
+		Chunk(int x, int y, Biome biome);
+		~Chunk(void);
 
 		class NotGeneratedException : public std::exception
 		{
@@ -31,6 +31,8 @@ class Chunck
 
 		void			Generate(void);
 		unsigned char	getValue(size_t x, size_t y);
+		int				getCoordX(void);
+		int				getCoordY(void);
 
 	private:
 		unsigned char	_map[SIZE][SIZE];
@@ -38,17 +40,5 @@ class Chunck
 		bool			_is_generated;
 		Biome			_biome;
 };
-
-// class Map
-// {
-// 	public:
-// 		Map(void);
-// 		~Map(void);
-
-// 		const static size_t RENDER_DISTANCE = 10;
-
-// 	private:
-// 		Chunck _map[RENDER_DISTANCE * 2][RENDER_DISTANCE * 2];
-// };
 
 float	SimplexNoise(float x, float y);
