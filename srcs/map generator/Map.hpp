@@ -1,6 +1,8 @@
 #pragma once
+#include <map>
 
 #include "Chunk.hpp"
+#include "Block.hpp"
 
 class Map
 {
@@ -20,4 +22,5 @@ class Map
     private:
         Chunk *_map[RENDER_DISTANCE * 2 + 1][RENDER_DISTANCE * 2 + 1];
         Biome _biome;
+        std::map<int[2], Block> _changes;
 };

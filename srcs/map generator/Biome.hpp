@@ -1,10 +1,12 @@
 #pragma once
 
 #include <stddef.h>
+#include <string>
 
 class Biome
 {
 	public:
+        const std::string name;
 		const size_t min_height;
 		const size_t max_height;
         float (*topology_curve)(float noise);
@@ -12,7 +14,7 @@ class Biome
         const static size_t SEA_LEVEL = 42;
     
     protected:
-        Biome(size_t min_height, size_t max_height, float (*topology_curve)(float noise));
+        Biome(std::string name, size_t min_height, size_t max_height, float (*topology_curve)(float noise));
 };
 
 class Plain : public Biome
