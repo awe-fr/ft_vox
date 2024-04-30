@@ -3,15 +3,16 @@
 #include <exception>
 #include <math.h>
 #include <iostream>
+#include <vector>
 
 #include <MLX42/MLX42.h>
 #include "Biome.hpp"
 
-class Chunk
+class NoiseMapChunk
 {
 	public:
-		Chunk(int x, int y, Biome biome);
-		~Chunk(void);
+		NoiseMapChunk(int x, int y, Biome biome);
+		~NoiseMapChunk(void);
 
 		class NotGeneratedException : public std::exception
 		{
@@ -28,10 +29,11 @@ class Chunk
 		const static size_t SEA_LEVEL = 42;
 		constexpr static float SCALE = 2.f;
 
-		void			Generate(void);
-		unsigned char	getValue(size_t x, size_t y);
-		int				getCoordX(void);
-		int				getCoordY(void);
+		void					Generate(void);
+		unsigned char			getValue(size_t x, size_t y);
+		int						getCoordX(void);
+		int						getCoordY(void);
+		std::vector<BlockLayer>	getBlockLayers(void);
 
 	private:
 		unsigned char	_map[SIZE][SIZE];

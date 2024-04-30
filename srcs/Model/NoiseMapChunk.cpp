@@ -1,23 +1,23 @@
-#include "Chunk.hpp"
+#include "NoiseMapChunk.hpp"
 
-Chunk::Chunk(int x, int y, Biome biome) : _coord{x, y}, _is_generated(false), _biome(biome)
+NoiseMapChunk::NoiseMapChunk(int x, int y, Biome biome) : _coord{x, y}, _is_generated(false), _biome(biome)
 {
 	this->Generate();
 }
 
-Chunk::~Chunk(void) {}
+NoiseMapChunk::~NoiseMapChunk(void) {}
 
-const char *Chunk::NotGeneratedException::what() const throw()
+const char *NoiseMapChunk::NotGeneratedException::what() const throw()
 {
 	return "Chunk not generated";
 }
 
-const char *Chunk::OutOfBoundsException::what() const throw()
+const char *NoiseMapChunk::OutOfBoundsException::what() const throw()
 {
 	return "Value out of bounds";
 }
 
-void Chunk::Generate(void)
+void NoiseMapChunk::Generate(void)
 {
 	if (this->_is_generated)
 		return;
@@ -25,12 +25,12 @@ void Chunk::Generate(void)
 	float biome_half = (float)(this->_biome.max_height - this->_biome.min_height) / 2.f;
 	float biome_avg = (float)this->_biome.min_height + biome_half;
 	
-	for (size_t i = 0; i < Chunk::SIZE; i++)
+	for (size_t i = 0; i < NoiseMapChunk::SIZE; i++)
 	{
-		float y = (float)this->_coord[1] / Chunk::SCALE + ((float)i / (float)Chunk::SIZE) / Chunk::SCALE;
-		for (size_t j = 0; j < Chunk::SIZE; j++)
+		float y = (float)this->_coord[1] / NoiseMapChunk::SCALE + ((float)i / (float)NoiseMapChunk::SIZE) / NoiseMapChunk::SCALE;
+		for (size_t j = 0; j < NoiseMapChunk::SIZE; j++)
 		{
-			float x = (float)this->_coord[0] / Chunk::SCALE + ((float)j / (float)Chunk::SIZE) / Chunk::SCALE;
+			float x = (float)this->_coord[0] / NoiseMapChunk::SCALE + ((float)j / (float)NoiseMapChunk::SIZE) / NoiseMapChunk::SCALE;
 			float noise = SimplexNoise(x, y);
 			this->_map[i][j] = (unsigned char)(biome_avg + (biome_half * this->_biome.topology_curve(noise)));
 		}
@@ -39,25 +39,30 @@ void Chunk::Generate(void)
 	this->_is_generated = true;
 }
 
-unsigned char Chunk::getValue(size_t x, size_t y)
+unsigned char NoiseMapChunk::getValue(size_t x, size_t y)
 {
 	if (!this->_is_generated)
-		throw Chunk::NotGeneratedException();
+		throw NoiseMapChunk::NotGeneratedException();
 
-	if (x >= Chunk::SIZE || y >= Chunk::SIZE)
-		throw Chunk::OutOfBoundsException();
+	if (x >= NoiseMapChunk::SIZE || y >= NoiseMapChunk::SIZE)
+		throw NoiseMapChunk::OutOfBoundsException();
 
 	return this->_map[y][x];
 }
 
-int Chunk::getCoordX(void)
+int NoiseMapChunk::getCoordX(void)
 {
 	return this->_coord[0];
 }
 
-int Chunk::getCoordY(void)
+int NoiseMapChunk::getCoordY(void)
 {
 	return this->_coord[1];
+}
+
+std::vector<BlockLayer> NoiseMapChunk::getBlockLayers(void)
+{
+	return this->_biome.getBlockLayers();
 }
 
 

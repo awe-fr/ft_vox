@@ -1,4 +1,4 @@
-#include "Map.hpp"
+#include "NoiseMap.hpp"
 #include <iostream>
 
 size_t get_nb_chunk(size_t length, size_t block_size)
