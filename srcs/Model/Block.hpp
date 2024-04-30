@@ -5,10 +5,12 @@
 class Block
 {
     public:
+        Block(void);
         ~Block(void);
         
-        const std::string name;
+        Block &operator=(const Block &block);
 
+        const std::string getName(void);
         const std::array<float, 4> getTextureTop(void);
         const std::array<float, 4> getTextureBottom(void);
         const std::array<float, 4> getTextureSide(void);
@@ -16,9 +18,10 @@ class Block
     protected:
         Block(const std::string name, const std::array<float, 4> texture_top, const std::array<float, 4> texture_bottom, const std::array<float, 4> texture_side);
 
-        const std::array<float, 4> _texture_top;
-        const std::array<float, 4> _texture_bottom;
-        const std::array<float, 4> _texture_side;
+        std::string             _name;
+        std::array<float, 4>    _texture_top;
+        std::array<float, 4>    _texture_bottom;
+        std::array<float, 4>    _texture_side;
 };
 
 class Void : public Block

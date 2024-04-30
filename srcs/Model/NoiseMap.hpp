@@ -9,8 +9,6 @@ class NoiseMap
         NoiseMap(Biome biome);
         ~NoiseMap(void);
 
-        const static size_t RENDER_DISTANCE = 10;
-
         void updateRight(void);
         void updateLeft(void);
         void updateUp(void);

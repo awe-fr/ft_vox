@@ -1,4 +1,5 @@
 #include "BlockMapChunk.hpp"
+#include <iostream>
 
 BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.getCoordX(), noise_chunk.getCoordY()}
 {
@@ -10,18 +11,20 @@ BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.get
             unsigned char height = noise_chunk.getValue(j, i);
             for (size_t k = 0; k < height; k++)
             {
-                for (size_t i = 0; i < layers.size())
+                for (size_t l = 0; l < layers.size(); l++)
                 {
-                    if (k + 1 >= layers[i].min_height && k + 1 <= layers[i].max_height)
+                    if (k + 1 >= layers[l].min_height && k + 1 <= layers[l].max_height)
                     {
                         if (k == height - 1)
-                            this->_map[i][j][k] = layers[i].top_block;
+                            this->_map[i][j][k] = layers[l].top_block;
                         else
-                            this->_map[i][j][k] = layers[i].block;
+                            this->_map[i][j][k] = layers[l].block;
                         break;
                     }
                 }
             }
+            for (size_t k = height; k < CHUNK_HEIGHT; k++)
+                this->_map[i][j][k] = Void();
         }
     }
 }

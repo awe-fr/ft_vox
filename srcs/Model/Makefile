@@ -1,7 +1,7 @@
 NAME=map
 CC=c++
 FLAGS=-Wall -Werror -Wextra -g
-SRCS=main.cpp Chunk.cpp Biome.cpp Map.cpp Block.cpp
+SRCS=Biome.cpp BlockMapChunk.cpp main.cpp NoiseMapChunk.cpp Block.cpp BlockMap.cpp Model.cpp NoiseMap.cpp
 
 MLX_DIR = MLX42/
 MLX_LIB = MLX42/build/libmlx42.a

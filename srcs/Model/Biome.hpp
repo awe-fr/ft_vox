@@ -15,7 +15,7 @@ class BlockLayer
         const size_t    max_height;
         const Block     block;
         const Block     top_block;
-}
+};
 
 class Biome
 {

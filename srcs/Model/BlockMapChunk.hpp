@@ -13,4 +13,4 @@ class BlockMapChunk
     private:
         Block       _map[CHUNK_SIZE][CHUNK_SIZE][CHUNK_HEIGHT];
         const int   _coord[2];
-}
+};

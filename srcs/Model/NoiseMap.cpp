@@ -1,4 +1,5 @@
 #include "NoiseMap.hpp"
+#include <iostream>
 
 NoiseMap::NoiseMap(Biome biome) : _biome(biome)
 {
@@ -36,8 +37,8 @@ void NoiseMap::updateUp(void)
 
     int y = this->_map[1][0]->getCoordY() - 1;
     int x = this->_map[1][0]->getCoordX();
-    for (int i = x; i < x + 10; i++)
-        this->_map[0][i] = new NoiseMapChunk(x, y, this->_biome);
+    for (int i = 0; i < 0; i++)
+        this->_map[0][i] = new NoiseMapChunk(x + i, y, this->_biome);
 }
 
 void NoiseMap::updateDown(void)
@@ -50,10 +51,10 @@ void NoiseMap::updateDown(void)
             this->_map[i][j] = this->_map[i + 1][j];
     }
 
-    int y = this->_map[RENDER_DISTANCE * 2][0]->getCoordY() + 1;
-    int x = this->_map[RENDER_DISTANCE * 2][0]->getCoordX();
-    for (int i = x; i < x + 10; i++)
-        this->_map[0][i] = new NoiseMapChunk(x, y, this->_biome);
+    int y = this->_map[RENDER_DISTANCE * 2 - 1][0]->getCoordY() + 1;
+    int x = this->_map[RENDER_DISTANCE * 2 - 1][0]->getCoordX();
+    for (int i = 0; i < 10; i++)
+        this->_map[RENDER_DISTANCE * 2][i] = new NoiseMapChunk(x, y, this->_biome);
 }
 
 void NoiseMap::updateLeft(void)
@@ -68,8 +69,8 @@ void NoiseMap::updateLeft(void)
 
     int y = this->_map[0][1]->getCoordY();
     int x = this->_map[0][1]->getCoordX() - 1;
-    for (int i = x; i < x + 10; i++)
-        this->_map[i][0] = new NoiseMapChunk(x, y, this->_biome);
+    for (int i = 0; i < 10; i++)
+        this->_map[i][0] = new NoiseMapChunk(x, y + i, this->_biome);
 }
 
 void NoiseMap::updateRight(void)
@@ -82,10 +83,10 @@ void NoiseMap::updateRight(void)
             this->_map[j][i] = this->_map[j][i + 1];
     }
 
-    int y = this->_map[0][RENDER_DISTANCE * 2]->getCoordY();
-    int x = this->_map[0][RENDER_DISTANCE * 2]->getCoordX() + 1;
-    for (int i = x; i < x + 10; i++)
-        this->_map[i][0] = new NoiseMapChunk(x, y, this->_biome);
+    int y = this->_map[0][RENDER_DISTANCE * 2 - 1]->getCoordY();
+    int x = this->_map[0][RENDER_DISTANCE * 2 - 1]->getCoordX() + 1;
+    for (int i = 0; i < 10; i++)
+        this->_map[i][RENDER_DISTANCE * 2] = new NoiseMapChunk(x, y + i, this->_biome);
 }
 
 NoiseMapChunk *NoiseMap::getChunk(size_t x, size_t y)

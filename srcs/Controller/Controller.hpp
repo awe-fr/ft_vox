@@ -5,8 +5,10 @@
 class Controller
 {
     public:
+        Controller(void);
+        ~Controller(void);
 
     private:
+        Model *_model;
 
-
-}
+};

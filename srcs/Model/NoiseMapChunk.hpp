@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-#include <MLX42/MLX42.h>
+#include "ModelVars.hpp"
 #include "Biome.hpp"
 
 class NoiseMapChunk
@@ -24,11 +24,6 @@ class NoiseMapChunk
 			virtual const char *what() const throw();
 		};
 
-		const static size_t	SIZE = 16;
-		const static size_t	MAX_HEIGHT = 256;
-		const static size_t SEA_LEVEL = 42;
-		constexpr static float SCALE = 2.f;
-
 		void					Generate(void);
 		unsigned char			getValue(size_t x, size_t y);
 		int						getCoordX(void);
@@ -36,7 +31,7 @@ class NoiseMapChunk
 		std::vector<BlockLayer>	getBlockLayers(void);
 
 	private:
-		unsigned char	_map[SIZE][SIZE];
+		unsigned char	_map[CHUNK_SIZE][CHUNK_SIZE];
 		const int		_coord[2];
 		bool			_is_generated;
 		Biome			_biome;

@@ -25,12 +25,12 @@ void NoiseMapChunk::Generate(void)
 	float biome_half = (float)(this->_biome.max_height - this->_biome.min_height) / 2.f;
 	float biome_avg = (float)this->_biome.min_height + biome_half;
 	
-	for (size_t i = 0; i < NoiseMapChunk::SIZE; i++)
+	for (size_t i = 0; i < CHUNK_SIZE; i++)
 	{
-		float y = (float)this->_coord[1] / NoiseMapChunk::SCALE + ((float)i / (float)NoiseMapChunk::SIZE) / NoiseMapChunk::SCALE;
-		for (size_t j = 0; j < NoiseMapChunk::SIZE; j++)
+		float y = (float)this->_coord[1] / SCALE + ((float)i / (float)CHUNK_SIZE) / SCALE;
+		for (size_t j = 0; j < CHUNK_SIZE; j++)
 		{
-			float x = (float)this->_coord[0] / NoiseMapChunk::SCALE + ((float)j / (float)NoiseMapChunk::SIZE) / NoiseMapChunk::SCALE;
+			float x = (float)this->_coord[0] / SCALE + ((float)j / (float)CHUNK_SIZE) / SCALE;
 			float noise = SimplexNoise(x, y);
 			this->_map[i][j] = (unsigned char)(biome_avg + (biome_half * this->_biome.topology_curve(noise)));
 		}
@@ -44,7 +44,7 @@ unsigned char NoiseMapChunk::getValue(size_t x, size_t y)
 	if (!this->_is_generated)
 		throw NoiseMapChunk::NotGeneratedException();
 
-	if (x >= NoiseMapChunk::SIZE || y >= NoiseMapChunk::SIZE)
+	if (x >= CHUNK_SIZE || y >= CHUNK_SIZE)
 		throw NoiseMapChunk::OutOfBoundsException();
 
 	return this->_map[y][x];
