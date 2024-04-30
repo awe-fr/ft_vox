@@ -1,7 +1,7 @@
-#include "../headers/Major.h"
+#include <View/ViewVars.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "../headers/stb/stb_image.h"
+#include <View/stb_image.h>
 
 
 GLuint	loadpng(const char *path) {

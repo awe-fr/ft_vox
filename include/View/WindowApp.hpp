@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Major.h"
+#include "ViewVars.hpp"
 
 class	WindowApp {
 	private:

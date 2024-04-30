@@ -1,4 +1,4 @@
-#include "../headers/PlayerInfo.hpp"
+#include <View/PlayerInfo.hpp>
 
 extern float  DeltaTime;
 

@@ -1,4 +1,6 @@
-#include "../headers/WindowApp.hpp"
+#include <iostream>
+
+#include <View/WindowApp.hpp>
 
 bool	WindowApp::InitWindow() {
 	if (!glfwInit()) {

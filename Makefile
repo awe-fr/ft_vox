@@ -1,6 +1,19 @@
 NAME = ft_vox
 
-SRCS = srcs/*.cpp
+SRCS = main.cpp \
+		srcs/Model/Biome.cpp \
+		srcs/Model/Block.cpp \
+		srcs/Model/BlockMap.cpp \
+		srcs/Model/BlockMapChunk.cpp \
+		srcs/Model/Model.cpp \
+		srcs/Model/NoiseMap.cpp \
+		srcs/Model/NoiseMapChunk.cpp \
+		srcs/View/PlayerInfo.cpp \
+		srcs/View/ShaderLoader.cpp \
+		srcs/View/stb.cpp \
+		srcs/View/View.cpp \
+		srcs/View/WindowApp.cpp \
+		srcs/Controller/Controller.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 

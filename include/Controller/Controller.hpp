@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../Model/Model.hpp"
+#include <Model/Model.hpp>
+#include <View/View.hpp>
 
 class Controller
 {
@@ -9,6 +10,7 @@ class Controller
         ~Controller(void);
 
     private:
-        Model *_model;
+        Model   *_model;
+        View    *_view;
 
 };
