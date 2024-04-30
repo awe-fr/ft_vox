@@ -1,4 +1,4 @@
-#include "Block.hpp"
+#include <Model/Block.hpp>
 
 Block::Block(void) : _name("void"), _texture_top{}, _texture_bottom{}, _texture_side{} {}
 

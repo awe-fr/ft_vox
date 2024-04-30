@@ -1,5 +1,4 @@
-#include "BlockMapChunk.hpp"
-#include <iostream>
+#include <Model/BlockMapChunk.hpp>
 
 BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.getCoordX(), noise_chunk.getCoordY()}
 {

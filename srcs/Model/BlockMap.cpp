@@ -1,4 +1,4 @@
-#include "BlockMap.hpp"
+#include <Model/BlockMap.hpp>
 
 BlockMap::BlockMap(NoiseMap noise_map)
 {

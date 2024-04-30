@@ -1,4 +1,4 @@
-#include "Biome.hpp"
+#include <Model/Biome.hpp>
 
 BlockLayer::BlockLayer(size_t min_height, size_t max_height, Block block, Block top_block) : min_height(min_height), max_height(max_height), block(block), top_block(top_block) {}
 

@@ -1,4 +1,4 @@
-#include "NoiseMapChunk.hpp"
+#include <NoiseMapChunk.hpp>
 
 NoiseMapChunk::NoiseMapChunk(int x, int y, Biome biome) : _coord{x, y}, _is_generated(false), _biome(biome)
 {

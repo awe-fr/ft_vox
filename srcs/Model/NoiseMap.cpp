@@ -1,5 +1,4 @@
-#include "NoiseMap.hpp"
-#include <iostream>
+#include <Model/NoiseMap.hpp>
 
 NoiseMap::NoiseMap(Biome biome) : _biome(biome)
 {
