@@ -11,6 +11,7 @@ class Model
         ~Model(void);
 
         NoiseMap *getNoiseMap(void);
+        BlockMap *getBlockMap(void);
 
     private:
         NoiseMap *_noise_map;

@@ -8,5 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <Model/ModelVars.hpp>
+
 #define HEIGHT 720
 #define WIDTH 1280

@@ -29,3 +29,18 @@ BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.get
 }
 
 BlockMapChunk::~BlockMapChunk(void) {}
+
+Block BlockMapChunk::getBlock(size_t x, size_t y, size_t z)
+{
+    return this->_map[y][x][z];
+}
+
+int BlockMapChunk::getCoordX(void)
+{
+    return this->_coord[0];
+}
+
+int BlockMapChunk::getCoordY(void)
+{
+    return this->_coord[1];
+}

@@ -16,3 +16,8 @@ NoiseMap *Model::getNoiseMap(void)
 {
     return this->_noise_map;
 }
+
+BlockMap *Model::getBlockMap(void)
+{
+    return this->_block_map;
+}
