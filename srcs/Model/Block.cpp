@@ -2,6 +2,11 @@
 
 Block::Block(void) : _name("void"), _texture_top{}, _texture_bottom{}, _texture_side{} {}
 
+Block::Block(const Block &block)
+{
+    *this = block;
+}
+
 Block::Block(const std::string name, const std::array<float, 4> texture_top, const std::array<float, 4> texture_bottom, const std::array<float, 4> texture_side) : _name(name),
     _texture_top(texture_top), _texture_bottom(texture_bottom), _texture_side(texture_side) {}
 
@@ -47,6 +52,6 @@ Dirt::Dirt(void) : Block("dirt", {1.f, 0.75f, 0.f, 0.25f}, {1.f, 0.75f, 0.f, 0.2
 
 Stone::Stone(void) : Block("stone", {1.f, 0.75f, 0.75f, 1.f}, {1.f, 0.75f, 0.75f, 1.f}, {1.f, 0.75f, 0.75f, 1.f}) {}
 
-Sand::Sand(void) : Block("sand", {0.75f, 0.5f, 0.f, 0.25f}, {0.75f, 0.5f, 0.f, 0.25f}, {0.75f, 0.5f, 0.25f, 0.5f}) {}
+Sand::Sand(void) : Block("sand", {0.75f, 0.5f, 0.f, 0.25f}, {0.75f, 0.5f, 0.f, 0.25f}, {0.75f, 0.5f, 0.f, 0.25f}) {}
 
 SnowyGrass::SnowyGrass(void) : Block("snowy grass", {0.75f, 0.5f, 0.5f, 0.75f}, {1.f, 0.75f, 0.f, 0.25f}, {0.75f, 0.5f, 0.25f, 0.5f}) {}

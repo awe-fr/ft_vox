@@ -1,6 +1,6 @@
 NAME = ft_vox
 
-SRCS = main.cpp \
+SRCS = srcs/main.cpp \
 		srcs/Model/Biome.cpp \
 		srcs/Model/Block.cpp \
 		srcs/Model/BlockMap.cpp \
@@ -12,6 +12,8 @@ SRCS = main.cpp \
 		srcs/View/ShaderLoader.cpp \
 		srcs/View/stb.cpp \
 		srcs/View/View.cpp \
+		srcs/View/ViewChunk.cpp \
+		srcs/View/ViewMap.cpp \
 		srcs/View/WindowApp.cpp \
 		srcs/Controller/Controller.cpp \
 
@@ -23,7 +25,7 @@ LDFLAGS = -Iinclude -Llib -lglfw -lGLEW -lGL -lX11 -lpthread -lXrandr -lXi -ldl 
 
 all: 		$(NAME)
 
-$(NAME):	$(OBJS)
+$(NAME):
 		g++ $(CFLAGS) -o $(NAME) $(SRCS) $(LDFLAGS) -g
 
 test: 		$(NAME)

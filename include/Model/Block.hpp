@@ -6,6 +6,7 @@ class Block
 {
     public:
         Block(void);
+        Block(const Block &block);
         ~Block(void);
         
         Block &operator=(const Block &block);

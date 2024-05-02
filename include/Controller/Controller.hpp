@@ -9,6 +9,8 @@ class Controller
         Controller(void);
         ~Controller(void);
 
+        void loop(void);
+
     private:
         Model   *_model;
         View    *_view;

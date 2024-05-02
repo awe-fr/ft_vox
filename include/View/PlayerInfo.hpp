@@ -16,8 +16,10 @@ class	PlayerInfo {
 		float		_Speed;
 		float		_FOV;
 	public:
+		PlayerInfo(void);
+		~PlayerInfo(void);
+		
 		glm::mat4	GiveProjection();
 		glm::mat4	GiveView();
 		void		Movements(GLFWwindow *Window);
-		void		InitPlayer();
 };

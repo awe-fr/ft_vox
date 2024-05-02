@@ -3,4 +3,4 @@
 #define CHUNK_SIZE 16
 #define CHUNK_HEIGHT 256
 #define RENDER_DISTANCE 10
-#define SCALE 2.f
+#define SCALE 5.f

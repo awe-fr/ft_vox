@@ -17,3 +17,8 @@ ViewMap::~ViewMap(void)
             delete this->_map[i][j];
     }
 }
+
+ViewChunk *ViewMap::getChunk(size_t x, size_t y)
+{
+    return this->_map[y][x];
+}

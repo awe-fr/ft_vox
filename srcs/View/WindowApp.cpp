@@ -2,10 +2,11 @@
 
 #include <View/WindowApp.hpp>
 
-bool	WindowApp::InitWindow() {
+WindowApp::WindowApp(void)
+{
 	if (!glfwInit()) {
 		std::cerr << "Failed to initialize GLFW" << std::endl;
-		return (true);
+		return;
 	}
 	// glfwWindowHint(GLFW_SAMPLES, 4); // weird white border on textures
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -16,18 +17,19 @@ bool	WindowApp::InitWindow() {
 	if (this->_window == NULL) {
 		std::cerr << "Failed to to open window" << std::endl;
 		glfwTerminate();
-		return (true);
+		return;
 	}
 	glfwMakeContextCurrent(this->_window);
 	glfwSwapInterval( 0 );
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK) {
 		std::cerr << "Failed to initialize GLEW" << std::endl;
-		return (true);
+		return;
 	}
 	glfwSetInputMode(this->_window, GLFW_STICKY_KEYS, GL_TRUE);
-	return (false);
 }
+
+WindowApp::~WindowApp(void) {}
 
 GLFWwindow	*WindowApp::GiveWindow() {
 	return (this->_window);

@@ -14,7 +14,7 @@ BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.get
                 {
                     if (k + 1 >= layers[l].min_height && k + 1 <= layers[l].max_height)
                     {
-                        if (k == height - 1)
+                        if (k == (size_t)(height - 1))
                             this->_map[i][j][k] = layers[l].top_block;
                         else
                             this->_map[i][j][k] = layers[l].block;

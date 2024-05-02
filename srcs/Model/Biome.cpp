@@ -22,8 +22,8 @@ Plain::Plain(void) : Biome("plain", 42, 54, plain_curve)
 Mountain::Mountain(void) : Biome("mountain", 48, 100, mountain_curve)
 {
     this->_layers.push_back(BlockLayer(1, 45, Stone(), Stone()));
-    this->_layers.push_back(BlockLayer(46, 60, Dirt(), Grass()));
-    this->_layers.push_back(BlockLayer(61, 90, Stone(), Stone()));
+    this->_layers.push_back(BlockLayer(46, 70, Dirt(), Grass()));
+    this->_layers.push_back(BlockLayer(71, 90, Stone(), Stone()));
     this->_layers.push_back(BlockLayer(91, 100, SnowyGrass(), SnowyGrass()));
 }
 
