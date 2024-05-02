@@ -300,3 +300,7 @@ int	Chunk::GiveTextureBufferSize() {
 GLuint	Chunk::GiveGlTextureBuffer() {
 	return (this->_GlTextureBuffer);
 }
+
+GLuint	Chunk::GiveVAO() {
+	return (this->_VAO);
+}

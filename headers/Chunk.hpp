@@ -15,6 +15,7 @@ class	Chunk {
 		std::vector<glm::vec3>	GiveVertexBuffer();
 		GLuint					GiveGlTextureBuffer();
 		GLuint					GiveGlVertexBuffer();
+		GLuint					GiveVAO();
 		void					TextureAssignTopId(int id, float *a, float *b, float *c, float *d);
 		void					TextureAssignBotId(int id, float *a, float *b, float *c, float *d);
 		void					TextureAssignId(int id, float *a, float *b, float *c, float *d);

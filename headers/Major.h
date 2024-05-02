@@ -18,6 +18,7 @@
 #include "WindowApp.hpp"
 #include "PlayerInfo.hpp"
 #include "Chunk.hpp"
+#include "Skybox.hpp"
 
 #define HEIGHT 720
 #define WIDTH 1280

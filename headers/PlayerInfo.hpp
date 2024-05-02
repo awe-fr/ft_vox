@@ -18,6 +18,11 @@ class	PlayerInfo {
 	public:
 		glm::mat4	GiveProjection();
 		glm::mat4	GiveView();
+		glm::vec3	GiveDirection();
+		glm::vec3	GivePosition();
+		glm::vec3	GiveUp();
+		float		GiveFOV();
 		void		Movements(GLFWwindow *Window);
 		void		InitPlayer();
+
 };
