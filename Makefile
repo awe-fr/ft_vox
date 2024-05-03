@@ -15,6 +15,7 @@ SRCS = srcs/main.cpp \
 		srcs/View/ViewChunk.cpp \
 		srcs/View/ViewMap.cpp \
 		srcs/View/WindowApp.cpp \
+		srcs/View/Skybox.cpp \
 		srcs/Controller/Controller.cpp \
 
 OBJS = $(SRCS:.cpp=.o)

@@ -155,3 +155,8 @@ int	ViewChunk::GiveTextureBufferSize() {
 GLuint	ViewChunk::GiveGlTextureBuffer() {
 	return (this->_GlTextureBuffer);
 }
+
+GLuint ViewChunk::GiveVAO(void)
+{
+	return this->_VAO;
+}

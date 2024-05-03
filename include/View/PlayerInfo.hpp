@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ViewVars.hpp"
+#include <array>
 
 class	PlayerInfo {
 	private:
@@ -21,5 +22,10 @@ class	PlayerInfo {
 		
 		glm::mat4	GiveProjection();
 		glm::mat4	GiveView();
+		glm::vec3	GiveDirection();
+		glm::vec3	GivePosition();
+		glm::vec3	GiveUp();
+		float		GiveFOV();
 		void		Movements(GLFWwindow *Window);
+		std::array<int, 2> getChunkPos(void);
 };
