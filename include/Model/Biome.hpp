@@ -8,13 +8,15 @@
 class BlockLayer
 {
     public:
-        BlockLayer(size_t min_height, size_t max_height, Block block, Block top_block);
+        BlockLayer(size_t min_height, size_t max_height, Block bottom_block, Block subtop_block, Block top_block, size_t subtop_height);
         ~BlockLayer(void);
 
         const size_t    min_height;
         const size_t    max_height;
-        const Block     block;
+        const Block     bottom_block;
+        const Block     subtop_block;
         const Block     top_block;
+        const size_t    subtop_height;
 };
 
 class Biome

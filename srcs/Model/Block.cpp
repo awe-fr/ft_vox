@@ -46,7 +46,7 @@ const std::array<float, 4> Block::getTextureSide(void)
 
 Void::Void(void) : Block("void", {}, {}, {}) {}
 
-Grass::Grass(void) : Block("grass", {1.f, 0.75f, 50.f, 0.75f}, {1.f, 0.75f, 0.f, 0.25f}, {1.f, 0.75f, 25.f, 0.50f}) {}
+Grass::Grass(void) : Block("grass", {1.f, 0.75f, 0.5f, 0.75f}, {1.f, 0.75f, 0.f, 0.25f}, {1.f, 0.75f, 0.25f, 0.50f}) {}
 
 Dirt::Dirt(void) : Block("dirt", {1.f, 0.75f, 0.f, 0.25f}, {1.f, 0.75f, 0.f, 0.25f}, {1.f, 0.75f, 0.f, 0.25f}) {}
 

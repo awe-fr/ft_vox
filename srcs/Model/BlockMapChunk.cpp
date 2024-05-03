@@ -8,7 +8,9 @@ BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.get
         for (size_t j = 0; j < CHUNK_SIZE; j++)
         {
             unsigned char height = noise_chunk.getValue(j, i);
-            for (size_t k = 0; k < height; k++)
+            for (size_t k = CHUNK_HEIGHT - 1; k >= height; k--)
+                this->_map[i][j][k] = Void();
+            for (size_t k = height - 1; k > 0; k--)
             {
                 for (size_t l = 0; l < layers.size(); l++)
                 {
@@ -16,14 +18,14 @@ BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.get
                     {
                         if (k == (size_t)(height - 1))
                             this->_map[i][j][k] = layers[l].top_block;
+                        else if (k >= (size_t)(height - 1) - layers[l].subtop_height)
+                            this->_map[i][j][k] = layers[l].subtop_block;
                         else
-                            this->_map[i][j][k] = layers[l].block;
+                            this->_map[i][j][k] = layers[l].bottom_block;
                         break;
                     }
                 }
             }
-            for (size_t k = height; k < CHUNK_HEIGHT; k++)
-                this->_map[i][j][k] = Void();
         }
     }
 }

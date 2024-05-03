@@ -29,6 +29,8 @@ void Controller::loop(void)
 
         ViewMap *map = this->_view->getViewMap();
         PlayerInfo *player = this->_view->getPlayerInfo();
+
+        Model = glm::translate(Model, glm::vec3(-RENDER_DISTANCE * CHUNK_SIZE, 0, - RENDER_DISTANCE * CHUNK_SIZE));
         for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
         {
             for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
