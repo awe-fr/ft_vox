@@ -50,12 +50,12 @@ void	Skybox::init() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	std::string CubePath[6] = {
-		"./textures/blocks.png",
-		"./textures/blocks.png",
-		"./textures/blocks.png",
-		"./textures/blocks.png",
-		"./textures/blocks.png",
-		"./textures/blocks.png"
+		"./textures/right.jpg",
+		"./textures/left.jpg",
+		"./textures/top.jpg",
+		"./textures/bottom.jpg",
+		"./textures/front.jpg",
+		"./textures/back.jpg"
 	};
 
 	glGenTextures(1, &this->_CubemapTexture);

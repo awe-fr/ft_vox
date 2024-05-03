@@ -48,8 +48,8 @@ int	main() {
 	glClearColor(0.6f, 0.0f, 0.8f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	// glEnable(GL_CULL_FACE);
-	// glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 	/*temp*/
 	glBindTexture(GL_TEXTURE_2D, textu);
 	while(App.IsClosed() == false) {
@@ -61,6 +61,7 @@ int	main() {
 		glUseProgram(ProgramID);
 		glBindVertexArray(Map.GiveVAO());
 
+		glEnable(GL_CULL_FACE);
 		glm::mat4 Model = glm::mat4(1.0f);
 		glBindTexture(GL_TEXTURE_2D, textu);
 
@@ -79,14 +80,14 @@ int	main() {
 		// glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 		glDisableVertexAttribArray(0);
 
+
 		glDepthFunc(GL_LEQUAL);
+		glDisable(GL_CULL_FACE);
 		glUseProgram(SkyboxID);
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
-		view = glm::mat4(glm::mat3(glm::lookAt(Player.GivePosition(), Player.GivePosition() + Player.GiveDirection(), Player.GiveUp())));
+		view = glm::mat4(glm::mat3(glm::lookAt(-Player.GivePosition(), (-Player.GivePosition() + Player.GiveDirection()), -Player.GiveUp())));
 		projection = glm::perspective(Player.GiveFOV(), (float) WIDTH / (float)HEIGHT, 0.1f, 1010.0f);
-		// glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &Player.GiveProjection()[0][0]);
-		// glUniformMatrix4fv(ViewID, 1, GL_FALSE, &Player.GiveView()[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(SkyboxID, "view"), 1, GL_FALSE, &view[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(SkyboxID, "projection"), 1, GL_FALSE, &projection[0][0]);
 
