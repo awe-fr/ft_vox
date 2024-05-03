@@ -1,37 +1,9 @@
 #pragma once 
 
-#include "Major.h"
-
-// float	Vertex[] = {
-// 	-1.0f, -1.0f, 1.0f,
-// 	 1.0f, -1.0f, 1.0f,
-// 	 1.0f, -1.0f, -1.0f,
-// 	-1.0f, -1.0f, -1.0f,
-// 	-1.0f, 1.0f, 1.0f,
-// 	 1.0f, 1.0f, 1.0f,
-// 	 1.0f, 1.0f, -1.0f,
-// 	-1.0f, 1.0f, -1.0f,
-// };
-
-// unsigned int	UV[] = {
-// 	1, 2, 6,
-// 	6, 5, 1,
-
-// 	0, 4, 7,
-// 	7, 3, 0,
-
-// 	4, 5, 6,
-// 	6, 7, 4,
-
-// 	0, 3, 2,
-// 	2, 1, 0,
-
-// 	0, 1, 5,
-// 	5, 4, 0,
-
-// 	3, 7, 6,
-// 	6, 2, 3,
-// };
+#include "ViewVars.hpp"
+#include <string>
+#include <iostream>
+#include "stb_image.h"
 
 class	Skybox {
 	private:
@@ -42,7 +14,8 @@ class	Skybox {
 		// unsigned int	_UV;
 		// float			_Vertex;
 	public:
+        Skybox(void);
+        ~Skybox(void);
 		unsigned int	GiveCubemapTexture();
 		unsigned int	GiveVAO();
-		void			init();
 };

@@ -27,10 +27,5 @@ class	PlayerInfo {
 		glm::vec3	GiveUp();
 		float		GiveFOV();
 		void		Movements(GLFWwindow *Window);
-<<<<<<< HEAD:headers/PlayerInfo.hpp
-		void		InitPlayer();
-
-=======
 		std::array<int, 2> getChunkPos(void);
->>>>>>> map_generator:include/View/PlayerInfo.hpp
 };

@@ -55,12 +55,6 @@ void	PlayerInfo::Movements(GLFWwindow *Window) {
 	this->_Direction = {cos(this->_VerticalAngle) * sin(this->_HorizontalAngle), sin(this->_VerticalAngle), cos(this->_VerticalAngle) * cos(this->_HorizontalAngle)};
 	this->_Right = {sin(this->_HorizontalAngle - 3.14f/2.0f), 0, cos(this->_HorizontalAngle - 3.14f/2.0f)};
 	this->_Up = glm::cross(this->_Right, this->_Direction);
-<<<<<<< HEAD:srcs/PlayerInfo.cpp
-	this->_Projection = glm::perspective(glm::radians(this->_FOV), (float) WIDTH / (float)HEIGHT, 0.1f, 1010.0f);
-	this->_View = glm::lookAt(this->_Position, this->_Position + this->_Direction, this->_Up);
-}
-
-=======
 	this->_Projection = glm::perspective(glm::radians(this->_FOV), (float) WIDTH / (float)HEIGHT, 0.1f, 1000.0f);
 	this->_View = glm::lookAt(this->_Position, this->_Position + this->_Direction, this->_Up);
 }
@@ -70,7 +64,6 @@ std::array<int, 2> PlayerInfo::getChunkPos(void)
 	return {(int)this->_Position.x / CHUNK_SIZE, (int)this->_Position.z / CHUNK_SIZE};
 }
 
->>>>>>> map_generator:srcs/View/PlayerInfo.cpp
 glm::vec3	PlayerInfo::GiveDirection() {
 	return (this->_Direction);
 }
