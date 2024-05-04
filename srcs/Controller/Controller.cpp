@@ -1,19 +1,10 @@
 #include <Controller/Controller.hpp>
-#include <chrono>
 
 float delta_time;
 
 Controller::Controller(void)
 {
-    // std::chrono::time_point<std::chrono::system_clock> start, end;
-    // start = std::chrono::system_clock::now();
-
     this->_model = new Model();
-
-    // end = std::chrono::system_clock::now();
-    // std::chrono::duration<double> elapsed_seconds = end - start;
-    // std::cout << elapsed_seconds.count() << std::endl;
-
     this->_view = new View(this->_model->getBlockMap());
 }
 
@@ -76,8 +67,8 @@ void Controller::loop(void)
         glDepthFunc(GL_LEQUAL);
 		glDisable(GL_CULL_FACE);
 		glUseProgram(this->_view->getSkyboxId());
-		view = glm::mat4(glm::mat3(glm::lookAt(-player->GivePosition(), (-player->GivePosition() + player->GiveDirection()), -player->GiveUp())));
-		projection = glm::perspective(player->GiveFOV(), (float) WIDTH / (float)HEIGHT, 0.1f, 1010.0f);
+		view = glm::mat4(glm::mat3(glm::lookAt(player->GivePosition(), player->GivePosition() + player->GiveDirection(), player->GiveUp())));
+		projection = glm::perspective(glm::radians(player->GiveFOV()), (float) WIDTH / (float)HEIGHT, 0.1f, 1010.0f);
 		glUniformMatrix4fv(glGetUniformLocation(this->_view->getSkyboxId(), "view"), 1, GL_FALSE, &view[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(this->_view->getSkyboxId(), "projection"), 1, GL_FALSE, &projection[0][0]);
 

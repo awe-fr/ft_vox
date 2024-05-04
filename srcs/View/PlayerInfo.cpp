@@ -55,7 +55,7 @@ void	PlayerInfo::Movements(GLFWwindow *Window) {
 	this->_Direction = {cos(this->_VerticalAngle) * sin(this->_HorizontalAngle), sin(this->_VerticalAngle), cos(this->_VerticalAngle) * cos(this->_HorizontalAngle)};
 	this->_Right = {sin(this->_HorizontalAngle - 3.14f/2.0f), 0, cos(this->_HorizontalAngle - 3.14f/2.0f)};
 	this->_Up = glm::cross(this->_Right, this->_Direction);
-	this->_Projection = glm::perspective(glm::radians(this->_FOV), (float) WIDTH / (float)HEIGHT, 0.1f, 1000.0f);
+	this->_Projection = glm::perspective(glm::radians(this->_FOV), (float) WIDTH / (float)HEIGHT, 0.1f, 160.0f);
 	this->_View = glm::lookAt(this->_Position, this->_Position + this->_Direction, this->_Up);
 }
 
