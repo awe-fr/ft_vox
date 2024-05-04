@@ -58,7 +58,7 @@ void ViewMap::updateLeft(BlockMap *block_map)
     for (size_t i = RENDER_DISTANCE * 2; i > 0; i--)
     {
         for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
-            this->_map[j][i] = this->_map[i][j - 1];
+            this->_map[j][i] = this->_map[j][i - 1];
     }
 
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)

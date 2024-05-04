@@ -53,7 +53,7 @@ void NoiseMap::updateDown(void)
     int y = this->_map[RENDER_DISTANCE * 2 - 1][0]->getCoordY() + 1;
     int x = this->_map[RENDER_DISTANCE * 2 - 1][0]->getCoordX();
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-        this->_map[RENDER_DISTANCE * 2][i] = new NoiseMapChunk(x, y, this->_biome);
+        this->_map[RENDER_DISTANCE * 2][i] = new NoiseMapChunk(x + i, y, this->_biome);
 }
 
 void NoiseMap::updateLeft(void)
@@ -63,7 +63,7 @@ void NoiseMap::updateLeft(void)
     for (size_t i = RENDER_DISTANCE * 2; i > 0; i--)
     {
         for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
-            this->_map[j][i] = this->_map[i][j - 1];
+            this->_map[j][i] = this->_map[j][i - 1];
     }
 
     int y = this->_map[0][1]->getCoordY();
