@@ -1,5 +1,7 @@
 #pragma once
 
+#include <thread>
+
 #include "BlockMapChunk.hpp"
 #include "NoiseMap.hpp"
 
@@ -18,4 +20,6 @@ class BlockMap
 
     private:
         BlockMapChunk   *_map[RENDER_DISTANCE * 2 + 1][RENDER_DISTANCE * 2 + 1];
+
+        static void generateChunk(BlockMap *map, NoiseMap *noise_map, size_t x, size_t y);
 };

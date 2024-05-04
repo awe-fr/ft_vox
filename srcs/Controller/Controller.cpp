@@ -1,10 +1,19 @@
 #include <Controller/Controller.hpp>
+#include <chrono>
 
 float delta_time;
 
 Controller::Controller(void)
 {
+    // std::chrono::time_point<std::chrono::system_clock> start, end;
+    // start = std::chrono::system_clock::now();
+
     this->_model = new Model();
+
+    // end = std::chrono::system_clock::now();
+    // std::chrono::duration<double> elapsed_seconds = end - start;
+    // std::cout << elapsed_seconds.count() << std::endl;
+
     this->_view = new View(this->_model->getBlockMap());
 }
 

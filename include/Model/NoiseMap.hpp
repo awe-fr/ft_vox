@@ -1,5 +1,6 @@
 #pragma once
-#include <map>
+
+#include <thread>
 
 #include "NoiseMapChunk.hpp"
 
@@ -19,4 +20,6 @@ class NoiseMap
     private:
         NoiseMapChunk *_map[RENDER_DISTANCE * 2 + 1][RENDER_DISTANCE * 2 + 1];
         Biome _biome;
+        
+        static void generateChunk(NoiseMap *map, size_t map_x, size_t map_y, int chunk_x, int chunk_y, Biome biome);
 };
