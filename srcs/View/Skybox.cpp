@@ -32,6 +32,10 @@ unsigned int	UV[] = {
 };
 
 Skybox::Skybox(void) {
+	this->_Projection = glm::mat4(1.0f);
+	this->_Model = glm::mat4(1.0f);
+	this->_View = glm::mat4(1.0f);
+
 	glGenVertexArrays(1, &this->_VAO);
 	glGenBuffers(1, &this->_VBO);
 	glGenBuffers(1, &this->_EBO);
@@ -86,4 +90,24 @@ unsigned int	Skybox::GiveVAO() {
 
 unsigned int	Skybox::GiveCubemapTexture() {
 	return (this->_CubemapTexture);
+}
+
+glm::mat4		Skybox::GiveProjection() {
+	return (this->_Projection);
+}
+
+glm::mat4		Skybox::GiveModel() {
+	return (this->_Model);
+}
+
+glm::mat4		Skybox::GiveView() {
+	return (this->_View);
+}
+
+void			Skybox::SetProjection(glm::mat4 NewProjection) {
+	this->_Projection = NewProjection;
+}
+
+void			Skybox::SetView(glm::mat4 NewView) {
+	this->_View = NewView;
 }

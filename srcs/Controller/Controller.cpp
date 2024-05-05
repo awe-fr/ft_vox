@@ -20,8 +20,6 @@ void Controller::loop(void)
     PlayerInfo *player = this->_view->getPlayerInfo();
     Skybox *skybox = this->_view->getSkybox();
     std::array<int, 2> current_pos = player->getChunkPos();
-	glm::mat4 view = glm::mat4(1.0f);
-	glm::mat4 projection = glm::mat4(1.0f);
     while(app->IsClosed() == false) {
 		/*temp*/
 		getDeltaTime();
@@ -67,10 +65,10 @@ void Controller::loop(void)
         glDepthFunc(GL_LEQUAL);
 		glDisable(GL_CULL_FACE);
 		glUseProgram(this->_view->getSkyboxId());
-		view = glm::mat4(glm::mat3(glm::lookAt(player->GivePosition(), player->GivePosition() + player->GiveDirection(), player->GiveUp())));
-		projection = glm::perspective(glm::radians(player->GiveFOV()), (float) WIDTH / (float)HEIGHT, 0.1f, 1010.0f);
-		glUniformMatrix4fv(glGetUniformLocation(this->_view->getSkyboxId(), "view"), 1, GL_FALSE, &view[0][0]);
-		glUniformMatrix4fv(glGetUniformLocation(this->_view->getSkyboxId(), "projection"), 1, GL_FALSE, &projection[0][0]);
+		skybox->SetView(glm::mat4(glm::mat3(glm::lookAt(player->GivePosition(), player->GivePosition() + player->GiveDirection(), player->GiveUp()))));
+		skybox->SetProjection(glm::perspective(glm::radians(player->GiveFOV()), (float) WIDTH / (float)HEIGHT, 0.1f, 1010.0f));
+		glUniformMatrix4fv(glGetUniformLocation(this->_view->getSkyboxId(), "view"), 1, GL_FALSE, &skybox->GiveView()[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(this->_view->getSkyboxId(), "projection"), 1, GL_FALSE, &skybox->GiveProjection()[0][0]);
 
 		glBindVertexArray(skybox->GiveVAO());
 		glActiveTexture(GL_TEXTURE0);

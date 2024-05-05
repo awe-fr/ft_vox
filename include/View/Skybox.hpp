@@ -11,11 +11,17 @@ class	Skybox {
 		unsigned int	_VAO;
 		unsigned int	_VBO;
 		unsigned int	_EBO;
-		// unsigned int	_UV;
-		// float			_Vertex;
+		glm::mat4		_Projection;
+		glm::mat4		_Model;
+		glm::mat4		_View;
 	public:
         Skybox(void);
         ~Skybox(void);
 		unsigned int	GiveCubemapTexture();
 		unsigned int	GiveVAO();
+		glm::mat4		GiveProjection();
+		glm::mat4		GiveModel();
+		glm::mat4		GiveView();
+		void			SetProjection(glm::mat4 NewProjection);
+		void			SetView(glm::mat4 NewView);
 };
