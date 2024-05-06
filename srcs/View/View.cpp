@@ -11,7 +11,7 @@ View::View(BlockMap *block_map)
 
     this->_program_id = LoadShaders("./shaders/shader.vert", "./shaders/shader.frag");
     this->_skybox_id = LoadShaders("./shaders/skybox.vert", "./shaders/skybox.frag");
-    this->_textu = loadpng("./textures/blocks.png");
+    this->_textu = loadpng("./textures/blocksv4.png");
 
     glUseProgram(this->_program_id);
     GLuint tex0Uni = glGetUniformLocation(this->_program_id, "tex");

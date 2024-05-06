@@ -46,12 +46,12 @@ const std::array<float, 4> Block::getTextureSide(void)
 
 Void::Void(void) : Block("void", {}, {}, {}) {}
 
-Grass::Grass(void) : Block("grass", {1.f, 0.75f, 0.5f, 0.75f}, {1.f, 0.75f, 0.f, 0.25f}, {1.f, 0.75f, 0.25f, 0.50f}) {}
+Grass::Grass(void) : Block("grass", {0.875f, 0.84375, 0.6875f, 0.71875f}, {0.875f, 0.84375, 0.125f, 0.15625f}, {0.875f, 0.84375, 0.40625f, 0.4375f}) {}
 
-Dirt::Dirt(void) : Block("dirt", {1.f, 0.75f, 0.f, 0.25f}, {1.f, 0.75f, 0.f, 0.25f}, {1.f, 0.75f, 0.f, 0.25f}) {}
+Dirt::Dirt(void) : Block("dirt", {0.875f, 0.84375, 0.125f, 0.15625f}, {0.875f, 0.84375, 0.125f, 0.15625f}, {0.875f, 0.84375, 0.125f, 0.15625f}) {}
 
-Stone::Stone(void) : Block("stone", {1.f, 0.75f, 0.75f, 1.f}, {1.f, 0.75f, 0.75f, 1.f}, {1.f, 0.75f, 0.75f, 1.f}) {}
+Stone::Stone(void) : Block("stone", {0.59375f, 0.5625f, 0.125f, 0.15625f}, {0.59375f, 0.5625f, 0.125f, 0.15625f}, {0.59375f, 0.5625f, 0.125f, 0.15625f}) {}
 
-Sand::Sand(void) : Block("sand", {0.75f, 0.5f, 0.f, 0.25f}, {0.75f, 0.5f, 0.f, 0.25f}, {0.75f, 0.5f, 0.f, 0.25f}) {}
+Sand::Sand(void) : Block("sand", {0.59375f, 0.5625f, 0.40625f, 0.4375f}, {0.59375f, 0.5625f, 0.40625f, 0.4375f}, {0.59375f, 0.5625f, 0.40625f, 0.4375f}) {}
 
-SnowyGrass::SnowyGrass(void) : Block("snowy grass", {0.75f, 0.5f, 0.5f, 0.75f}, {1.f, 0.75f, 0.f, 0.25f}, {0.75f, 0.5f, 0.25f, 0.5f}) {}
+SnowyGrass::SnowyGrass(void) : Block("snowy grass", {0.3125f, 0.28125f, 0.125f, 0.15625f}, {0.875f, 0.84375, 0.125f, 0.15625f}, {0.59375f, 0.5625f, 0.6875f, 0.71875f}) {}
