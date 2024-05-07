@@ -30,5 +30,6 @@ class	ViewChunk {
 		GLuint					GiveGlVertexBuffer();
 		int						GiveTextureBufferSize();
 		int						GiveVertexBufferSize();
+		void					bindBuffer();
 		GLuint					GiveVAO(void);
 };

@@ -20,14 +20,14 @@ SRCS = srcs/main.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -pthread #-Wall -Wextra -Werror
 
 LDFLAGS = -Iinclude -I/usr/local/include/glm/glm -Llib -lglfw -lGLEW -lGL -lX11 -lpthread -lXrandr -lXi -ldl -D GLEW_STATIC
 
 all: 		$(NAME)
 
 $(NAME):
-		g++ $(CFLAGS) -o $(NAME) $(SRCS) $(LDFLAGS) -g
+		g++ $(CFLAGS) -o $(NAME) $(SRCS) $(LDFLAGS) -g -O3
 
 test: 		$(NAME)
 		./$(NAME)

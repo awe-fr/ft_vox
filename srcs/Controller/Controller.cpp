@@ -6,6 +6,12 @@ Controller::Controller(void)
 {
     this->_model = new Model();
     this->_view = new View(this->_model->getBlockMap());
+    this->_closeThread = false;
+    for (int i = 0; i <= RENDER_DISTANCE * 2; i++) {
+        for (int j = 0; j <= RENDER_DISTANCE * 2; j++) {
+            this->_binder[i][j] = 1;
+        }
+    }
 }
 
 Controller::~Controller(void)
@@ -20,6 +26,8 @@ void Controller::loop(void)
     PlayerInfo *player = this->_view->getPlayerInfo();
     Skybox *skybox = this->_view->getSkybox();
     std::array<int, 2> current_pos = player->getChunkPos();
+    
+    std::thread render(Controller::routineThread, this, &current_pos, player, app);
     while(app->IsClosed() == false) {
 		/*temp*/
 		getDeltaTime();
@@ -43,6 +51,10 @@ void Controller::loop(void)
             for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
             {
                 ViewChunk *chunk = map->getChunk(j, i);
+                if (this->_binder[i][j] == 1) {
+                    chunk->bindBuffer();
+                    this->_binder[i][j] = 0;
+                }
                 glBindVertexArray(chunk->GiveVAO());
                 glEnableVertexAttribArray(1);
                 glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlTextureBuffer());
@@ -79,36 +91,61 @@ void Controller::loop(void)
 		glDepthFunc(GL_LESS);
 
 		player->Movements(app->GiveWindow());
-        std::array<int, 2> new_pos = player->getChunkPos();
-        if (new_pos != current_pos)
-        {
-            this->updateMap(current_pos, new_pos);
-            current_pos = new_pos;
-        }
+        // std::array<int, 2> new_pos = player->getChunkPos();
+        // if (new_pos != current_pos)
+        // {
+        //     this->updateMap(current_pos, new_pos);
+        //     current_pos = new_pos;
+        // }
 		/*temp*/
 	}
+    this->_closeThread = true;
+    render.join();
 }
 
-void Controller::updateMap(std::array<int, 2> prev_pos, std::array<int, 2> new_pos)
+void Controller::routineThread(Controller *control, std::array<int, 2> *current_pos, PlayerInfo *player, WindowApp *app) {
+    while(control->_closeThread == false) {
+        std::array<int, 2> new_pos = player->getChunkPos();
+        if (new_pos != *current_pos)
+        {
+            control->updateMap(control, *current_pos, new_pos);
+            *current_pos = new_pos;
+        }
+    }
+}
+
+void Controller::updateMap(Controller *control, std::array<int, 2> prev_pos, std::array<int, 2> new_pos)
 {
     if (new_pos[0] > prev_pos[0])
     {
         this->_model->updateRight();
         this->_view->updateRight(this->_model->getBlockMap());
+        for (int i = 0; i <= RENDER_DISTANCE * 2; i++) {
+            control->_binder[i][RENDER_DISTANCE * 2] = 1;
+        }
     }
     else if (new_pos[0] < prev_pos[0])
     {
         this->_model->updateLeft();
         this->_view->updateLeft(this->_model->getBlockMap());
+        for (int i = 0; i <= RENDER_DISTANCE * 2; i++) {
+            control->_binder[i][0] = 1;
+        }
     }
     if (new_pos[1] > prev_pos[1])
     {
         this->_model->updateDown();
         this->_view->updateDown(this->_model->getBlockMap());
+        for (int i = 0; i <= RENDER_DISTANCE * 2; i++) {
+            control->_binder[RENDER_DISTANCE * 2][i] = 1;
+        }
     }
     else if (new_pos[1] < prev_pos[1])
     {
         this->_model->updateUp();
         this->_view->updateUp(this->_model->getBlockMap());
+        for (int i = 0; i <= RENDER_DISTANCE * 2; i++) {
+            control->_binder[0][i] = 1;
+        }
     }
 }
