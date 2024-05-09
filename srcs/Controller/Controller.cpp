@@ -26,12 +26,12 @@ void Controller::loop(void)
     PlayerInfo *player = this->_view->getPlayerInfo();
     Skybox *skybox = this->_view->getSkybox();
     std::array<int, 2> current_pos = player->getChunkPos();
-    
     std::thread render(Controller::routineThread, this, &current_pos, player, app);
     while(app->IsClosed() == false) {
 		/*temp*/
 		getDeltaTime();
-		std::cout << 1 / delta_time << std::endl;
+        if (1 / delta_time <= 200)
+		    std::cout << 1 / delta_time << std::endl;
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glEnable(GL_CULL_FACE);
@@ -50,11 +50,22 @@ void Controller::loop(void)
         {
             for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
             {
+                // std::chrono::time_point<std::chrono::system_clock> start, end;
+                // start = std::chrono::system_clock::now();
                 ViewChunk *chunk = map->getChunk(j, i);
                 if (this->_binder[i][j] == 1) {
-                    chunk->bindBuffer();
-                    this->_binder[i][j] = 0;
+                    isOkayToBind(i, j, chunk, false);
+                    // for (size_t t = j; t <= RENDER_DISTANCE * 2; t++)
+                    model = glm::translate(model, glm::vec3(CHUNK_SIZE, 0, 0));
+                    
+                    continue;
+                    // chunk->bindBuffer();
+                    // this->_binder[i][j] = 0;
                 }
+                // end = std::chrono::system_clock::now();
+                // std::chrono::duration<double> elapsed_seconds = end - start;
+                // if (elapsed_seconds.count() >= 0.0005)
+                //     std::cout << elapsed_seconds.count() << std::endl;
                 glBindVertexArray(chunk->GiveVAO());
                 glEnableVertexAttribArray(1);
                 glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlTextureBuffer());
@@ -67,12 +78,14 @@ void Controller::loop(void)
                 glEnableVertexAttribArray(0);
                 glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlVertexBuffer());
                 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+
                 glDrawArrays(GL_TRIANGLES, 0, chunk->GiveVertexBufferSize());
                 glDisableVertexAttribArray(0);
                 model = glm::translate(model, glm::vec3(CHUNK_SIZE, 0, 0));
             }
             model = glm::translate(model, glm::vec3(-(RENDER_DISTANCE * 2 + 1) * CHUNK_SIZE, 0, CHUNK_SIZE));
         }
+        isOkayToBind(0, 0, NULL, true);
 
         glDepthFunc(GL_LEQUAL);
 		glDisable(GL_CULL_FACE);
@@ -101,6 +114,18 @@ void Controller::loop(void)
 	}
     this->_closeThread = true;
     render.join();
+}
+
+void Controller::isOkayToBind(int i, int j, ViewChunk *chunk, bool reset) {
+    static bool bind = false;
+    if (reset == true) {
+        bind = false;
+    }
+    else if (reset == false && bind == false){
+        chunk->bindBuffer();
+        this->_binder[i][j] = 0;
+        bind = true;
+    }
 }
 
 void Controller::routineThread(Controller *control, std::array<int, 2> *current_pos, PlayerInfo *player, WindowApp *app) {
