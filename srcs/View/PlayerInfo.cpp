@@ -49,7 +49,7 @@ void	PlayerInfo::Movements(GLFWwindow *Window) {
 	if (glfwGetKey(Window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		this->_HorizontalAngle -= 1 * delta_time;
 	if (glfwGetKey(Window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		this->_Speed = 10;
+		this->_Speed = 100;
 	else
 		this->_Speed = 5;
 	this->_Direction = {cos(this->_VerticalAngle) * sin(this->_HorizontalAngle), sin(this->_VerticalAngle), cos(this->_VerticalAngle) * cos(this->_HorizontalAngle)};

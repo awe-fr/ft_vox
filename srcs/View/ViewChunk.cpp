@@ -2,6 +2,7 @@
 
 ViewChunk::ViewChunk(BlockMapChunk *block_chunk) : _coord{block_chunk->getCoordX(), block_chunk->getCoordY()}
 {
+	this->_binded = false;
     for (size_t i = 0; i < CHUNK_SIZE; i++)
     {
         for (size_t j = 0; j < CHUNK_SIZE; j++)
@@ -27,16 +28,8 @@ ViewChunk::ViewChunk(BlockMapChunk *block_chunk) : _coord{block_chunk->getCoordX
         }
     }
 
-    // glGenVertexArrays(1, &this->_VAO);
-	// glBindVertexArray(this->_VAO);
-
-	// glGenBuffers(1, &this->_GlVertexBuffer);
-	// glBindBuffer(GL_ARRAY_BUFFER, this->_GlVertexBuffer);
-	// glBufferData(GL_ARRAY_BUFFER, this->_VertexBuffer.size() * sizeof(glm::vec3), &this->_VertexBuffer[0], GL_DYNAMIC_DRAW);
-
-	// glGenBuffers(1, &this->_GlTextureBuffer);
-	// glBindBuffer(GL_ARRAY_BUFFER, this->_GlTextureBuffer);
-	// glBufferData(GL_ARRAY_BUFFER, this->_TextureBuffer.size() * sizeof(glm::vec2), &this->_TextureBuffer[0], GL_DYNAMIC_DRAW);
+	this->_model = glm::mat4(1);
+	this->_model = glm::translate(this->_model, glm::vec3(this->_coord[0] * CHUNK_SIZE, 0, this->_coord[1] * CHUNK_SIZE));
 }
 
 void ViewChunk::bindBuffer() {
@@ -50,9 +43,15 @@ void ViewChunk::bindBuffer() {
 	glGenBuffers(1, &this->_GlTextureBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, this->_GlTextureBuffer);
 	glBufferData(GL_ARRAY_BUFFER, this->_TextureBuffer.size() * sizeof(glm::vec2), &this->_TextureBuffer[0], GL_DYNAMIC_DRAW);
+	
+	this->_binded = true;
 }
 
 ViewChunk::~ViewChunk(void) {}
+
+bool ViewChunk::IsBinded() {
+	return (this->_binded);
+}
 
 void	ViewChunk::VertexUp(int x, int y, int z, const std::array<float, 4> array) {
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 1.0f, (y * 1) + 1.0001f));
@@ -172,4 +171,8 @@ GLuint	ViewChunk::GiveGlTextureBuffer() {
 GLuint ViewChunk::GiveVAO(void)
 {
 	return this->_VAO;
+}
+
+glm::mat4 ViewChunk::GiveModel() {
+	return (this->_model);
 }

@@ -8,10 +8,12 @@ class	ViewChunk {
 	private:
 		std::vector<glm::vec2>	_TextureBuffer;
 		std::vector<glm::vec3>	_VertexBuffer;
+		glm::mat4				_model;
 		GLuint 					_GlTextureBuffer;
 		GLuint					_GlVertexBuffer;
 		GLuint					_VAO;
         const int               _coord[2];
+		bool					_binded;
 
 		void					VertexRight(int x, int y, int z, const std::array<float, 4> array);
 		void					VertexFront(int x, int y, int z, const std::array<float, 4> array);
@@ -26,10 +28,12 @@ class	ViewChunk {
 
 		std::vector<glm::vec2>	GiveTextureBuffer();
 		std::vector<glm::vec3>	GiveVertexBuffer();
+		glm::mat4				GiveModel();
 		GLuint					GiveGlTextureBuffer();
 		GLuint					GiveGlVertexBuffer();
 		int						GiveTextureBufferSize();
 		int						GiveVertexBufferSize();
 		void					bindBuffer();
 		GLuint					GiveVAO(void);
+		bool					IsBinded();
 };

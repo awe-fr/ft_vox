@@ -3,6 +3,7 @@
 #include "ViewVars.hpp"
 #include "ViewChunk.hpp"
 #include <Model/BlockMap.hpp>
+#include <mutex>
 
 class ViewMap
 {
