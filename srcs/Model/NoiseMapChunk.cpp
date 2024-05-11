@@ -36,10 +36,14 @@ NoiseMapChunk::NoiseMapChunk(int x, int y, Biome biome) : _coord{x, y}, _is_gene
 
 	for (size_t i = 0; i < CHUNK_SIZE; i++)
 	{
-		float y = (float)this->_coord[1] / CONTINENTAL_SCALE + ((float)i / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
+		float y_c = (float)this->_coord[1] / CONTINENTAL_SCALE + ((float)i / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
+		float y_e = (float)this->_coord[1] / EROSION_SCALE + ((float)i / (float)CHUNK_SIZE) / EROSION_SCALE;
+		float y_pv = (float)this->_coord[1] / PEAKS_VALLEYS_SCALE + ((float)i / (float)CHUNK_SIZE) / PEAKS_VALLEYS_SCALE;
 		for (size_t j = 0; j < CHUNK_SIZE; j++)
 		{
-			float x = (float)this->_coord[0] / CONTINENTAL_SCALE + ((float)j / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
+			float x_c = (float)this->_coord[0] / CONTINENTAL_SCALE + ((float)j / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
+			float x_e = (float)this->_coord[0] / EROSION_SCALE + ((float)j / (float)CHUNK_SIZE) / EROSION_SCALE;
+			float x_pv = (float)this->_coord[0] / PEAKS_VALLEYS_SCALE + ((float)j / (float)CHUNK_SIZE) / PEAKS_VALLEYS_SCALE;
 
 			// Erosion
 			float persistence = 0.5f;
@@ -49,7 +53,7 @@ NoiseMapChunk::NoiseMapChunk(int x, int y, Biome biome) : _coord{x, y}, _is_gene
 			float noise = 0.f;
 			for (size_t k = 0; k < 2; k++)
 			{
-				noise += amplitude * SimplexNoise(x * frequency, y * frequency);
+				noise += amplitude * SimplexNoise(x_e * frequency, y_e * frequency);
 				amplitude *= persistence;
 				frequency *= lacunarity;
 			}
@@ -58,19 +62,38 @@ NoiseMapChunk::NoiseMapChunk(int x, int y, Biome biome) : _coord{x, y}, _is_gene
 			// Continentalness
 			persistence = 0.55f;
 			lacunarity = 2.2f;
-			amplitude = 0.8f;
+			amplitude = 0.7f;
 			frequency = 1.f / CONTINENTAL_SCALE;
 			noise = 0.f;
-			for (size_t k = 0; k < 4; k++)
+			for (size_t k = 0; k < 5; k++)
 			{
-				noise += amplitude * SimplexNoise(x * frequency, y * frequency);
+				noise += amplitude * SimplexNoise(x_c * frequency, y_c * frequency);
 				amplitude *= persistence;
 				frequency *= lacunarity;
 			}
-			// if (noise < -1.f || noise > 1.f)
-			// 	std::cout << noise << std::endl;
-			int level = (int)continentalness(noise + e * 0.05);
+			float c = continentalness(noise);
 
+			// Peaks and valleys
+			persistence = 0.5f;
+			lacunarity = 2.f;
+			amplitude = 1.f;
+			frequency = 1.f / PEAKS_VALLEYS_SCALE;
+			noise = 0.f;
+			for (size_t k = 0; k < 4; k++)
+			{
+				noise += amplitude * SimplexNoise(x_pv * frequency, y_pv * frequency);
+				amplitude *= persistence;
+				frequency *= lacunarity;
+			}
+			float pv = peaks_valleys(noise);
+
+			float e_weight = 1.8f;
+			float c_weight = 2.5f;
+			float pv_weight = 1.f;
+
+			float avg = (e * e_weight + c * c_weight + pv * pv_weight) / (e_weight + c_weight + pv_weight);
+
+			unsigned char level = (unsigned char)10 + (unsigned char)(150.f * avg);
 
 			this->_map[i][j] = (unsigned char)level;
 		}
@@ -150,68 +173,218 @@ std::vector<BlockLayer> NoiseMapChunk::getBlockLayers(void)
 	return this->_biome.getBlockLayers();
 }
 
-unsigned char continentalness(float noise)
+float continentalness(float noise)
 {
 	float c_noise = noise + 1.f;
-	if (c_noise <= 0.5f)
+	// if (c_noise <= 0.5f)
+	// {
+	// 	float a = c_noise / 0.5f;
+	// 	unsigned char c = (unsigned char)(30 + a * 25.f);
+	// 	return c;
+	// }
+	// if (c_noise <= 1.4f)
+	// {
+	// 	float a = (c_noise - 0.5f) / 1.f;
+	// 	unsigned char c = (unsigned char)(56.f + a * 14.f);
+	// 	return c;
+	// }
+	// if (c_noise <= 1.8f)
+	// {
+	// 	float a = (c_noise - 1.4f) / 0.4f;
+	// 	unsigned char c = (unsigned char)(70.f + a * 58.f);
+	// 	return c;
+	// }
+	// float a = (c_noise - 1.8f) / 0.2f;
+	// unsigned char c = (unsigned char)(128.f + a * 3.f);
+	// return c;
+
+	// if (c_noise <= 0.1f)
+	// {
+	// 	float a = c_noise / 0.1f;
+	// 	float c = 1.f - a * 0.95f;
+	// 	return c;
+	// }
+	if (c_noise <= 0.5)
 	{
-		float a = c_noise / 0.5f;
-		unsigned char c = (unsigned char)(30 + a * 25.f);
+		float c = 0.05f;
 		return c;
 	}
-	if (c_noise <= 1.5f)
+	if (c_noise <= 0.6)
 	{
-		float a = (c_noise - 0.5f) / 1.f;
-		unsigned char c = (unsigned char)(56.f + a * 14.f);
+		float a = (c_noise - 0.5f) / 0.1f;
+		float c = 0.05f + a * 0.2f;
 		return c;
 	}
-	if (c_noise <= 1.9f)
+	if (c_noise <= 0.75)
 	{
-		float a = (c_noise - 1.5f) / 0.4f;
-		unsigned char c = (unsigned char)(70.f + a * 58.f);
+		float c = 0.25f;
 		return c;
 	}
-	float a = (c_noise - 1.9f) / 0.1f;
-	unsigned char c = (unsigned char)(128.f + a * 3.f);
+	if (c_noise <= 0.85)
+	{
+		float a = (c_noise - 0.75f) / 0.1f;
+		float c = 0.25f + a * 0.2f;
+		return c;
+	}
+	if (c_noise <= 1.2)
+	{
+		float a = (c_noise - 0.85f) / 0.35f;
+		float c = 0.45f + a * 0.3f;
+		return c;
+	}
+	if (c_noise <= 1.4)
+	{
+		float a = (c_noise - 1.2f) / 0.2f;
+		float c = 0.75f + a * 0.05f;
+		return c;
+	}
+	if (c_noise <= 1.7)
+	{
+		float a = (c_noise - 1.4f) / 0.3f;
+		float c = 0.80f + a * 0.15f;
+		return c;
+	}
+	float c = 0.95f;
 	return c;
 }
 
 float erosion(float noise)
 {
+	// float e_noise = noise + 1.f;
+	// int e;
+	// if (e_noise <= 1.f)
+	// {
+	// 	float a = e_noise / 1.f;
+	// 	e = (int)(a * 20.f);
+	// }
+	// else if (e_noise <= 1.65f)
+	// {
+	// 	float a = (e_noise - 1.f) / 0.65f;
+	// 	e = (int)(20.f + a * 4.f);
+	// }
+	// else if (e_noise <= 1.7f)
+	// {
+	// 	float a = (e_noise - 1.65f) / 0.05f;
+	// 	e = (int)(24.f - a * 8.f);
+	// }
+	// else if (e_noise <= 1.8f)
+	// 	e = (int)8;
+	// else if (e_noise <= 1.85f)
+	// {
+	// 	float a = (e_noise - 1.8f) / 0.05f;
+	// 	e = (int)(16.f + a * 8.f);
+	// }
+	// else
+	// {
+	// 	float a = (e_noise - 1.85f) / 0.15;
+	// 	e = (int)(24.f + a * 4.f);
+	// }
+	// if (e <= 14)
+	// 	return (float)e / 14.f;
+
+	// e -= 14;
+	// return -(float)e / 14.f;
+
 	float e_noise = noise + 1.f;
-	int e;
+	if (e_noise <= 0.22f)
+	{
+		float a = e_noise / 0.15f;
+		float e = 1.f - a * 0.3f;
+		return e;
+	}
+	if (e_noise <= 0.6f)
+	{
+		float a = (e_noise - 0.22f) / 0.38f;
+		float e = 0.7f - a * 0.2f;
+		return e;
+	}
+	if (e_noise <= 0.7f)
+	{
+		float a = (e_noise - 0.6f) / 0.1f;
+		float e = 0.5f + a * 0.1f;
+		return e;
+	}
 	if (e_noise <= 1.f)
 	{
-		float a = e_noise / 1.f;
-		e = (int)(a * 20.f);
+		float a = (e_noise - 0.7f) / 0.3f;
+		float e = 0.6f - a * 0.4f;
+		return e;
 	}
-	else if (e_noise <= 1.65f)
+	if (e_noise <= 1.5f)
 	{
-		float a = (e_noise - 1.f) / 0.65f;
-		e = (int)(20.f + a * 4.f);
+		float a = (e_noise - 1.f) / 0.5f;
+		float e = 0.2f - a * 0.05f;
+		return e;
 	}
-	else if (e_noise <= 1.7f)
+	if (e_noise <= 1.65f)
 	{
-		float a = (e_noise - 1.65f) / 0.05f;
-		e = (int)(24.f - a * 8.f);
+		float a = (e_noise - 1.5f) / 0.15f;
+		float e = 0.15f + a * 0.1f;
+		return e;
 	}
-	else if (e_noise <= 1.8f)
-		e = (int)8;
-	else if (e_noise <= 1.85f)
+	if (e_noise <= 1.8f)
 	{
-		float a = (e_noise - 1.8f) / 0.05f;
-		e = (int)(16.f + a * 8.f);
+		float e = 0.25f;
+		return e;
 	}
-	else
+	if (e_noise <= 1.95f)
 	{
-		float a = (e_noise - 1.85f) / 0.15;
-		e = (int)(24.f + a * 4.f);
+		float a = (e_noise - 1.8f) / 0.15f;
+		float e = 0.25f - a * 0.1f;
+		return e;
 	}
-	if (e <= 14)
-		return (float)e / 14.f;
+	float a = (e_noise - 1.95f) / 0.05f;
+	float e = 0.15f - a * 0.05f;
+	return e;
+}
 
-	e -= 14;
-	return -(float)e / 14.f;
+float peaks_valleys(float noise)
+{
+	float pv_noise = noise + 1.f;
+	if (pv_noise <= 0.2f)
+	{
+		float a = pv_noise / 0.2f;
+		float pv = a * 0.1f;
+		return pv;
+	}
+	if (pv_noise <= 0.4f)
+	{
+		float a = (pv_noise - 0.2f) / 0.2f;
+		float pv = 0.1f + a * 0.08f;
+		return pv;
+	}
+	if (pv_noise <= 0.6f)
+	{
+		float a = (pv_noise - 0.4f) / 0.2f;
+		float pv = 0.18f + a * 0.04f;
+		return pv;
+	}
+	if (pv_noise <= 0.9f)
+	{
+		float a = (pv_noise - 0.6f) / 0.3f;
+		float pv = 0.22f + a * 0.06f;
+		return pv;
+	}
+	if (pv_noise <= 1.4f)
+	{
+		float a = (pv_noise - 0.9f) / 0.5f;
+		float pv = 0.28f + a * 0.52f;
+		return pv;
+	}
+	if (pv_noise <= 1.5f)
+	{
+		float a = (pv_noise - 1.4f) / 0.1f;
+		float pv = 0.80f + a * 0.15f;
+		return pv;
+	}
+	if (pv_noise <= 1.75f)
+	{
+		float a = (pv_noise - 1.5f) / 0.25f;
+		float pv = 0.95f - a * 0.1f;
+		return pv;
+	}
+	float pv = 0.85f;
+	return pv;
 }
 
 
