@@ -33,6 +33,12 @@ Desert::Desert(void) : Biome("desert", 42, 54, desert_curve)
     this->_layers.push_back(BlockLayer(39, 54, Stone(), Sand(), Sand(), 3));
 }
 
+Test::Test(void) : Biome("test", 1, 255, plain_curve)
+{
+    this->_layers.push_back(BlockLayer(1, 56, Stone(), Stone(), Stone(), 0));
+    this->_layers.push_back(BlockLayer(57, 255, Stone(), Dirt(), Grass(), 4));
+}
+
 float plain_curve(float noise)
 {
     return noise;

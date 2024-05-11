@@ -2,7 +2,81 @@
 
 NoiseMapChunk::NoiseMapChunk(int x, int y, Biome biome) : _coord{x, y}, _is_generated(false), _biome(biome)
 {
-	this->Generate();
+	// this->Generate();
+
+	// int start_y = y * CHUNK_SIZE;
+	// size_t map_y = 0;
+	// for (int i = start_y; i < start_y + 16; i++)
+	// {
+	// 	size_t map_x = 0;
+	// 	int start_x = x * CHUNK_SIZE;
+	// 	for (int j = start_x; j < start_x + 16; j++)
+	// 	{
+	// 		float amplitude = 20.f;
+	// 		float frequency = 1.f / 3.f;
+	// 		float persistance = 0.5f;
+	// 		float lacunarity = 2.f;
+	// 		float noise = 0.f;
+	// 		size_t nb_octave = 4;
+
+	// 		for (size_t k = 0; k < nb_octave; k++)
+	// 		{
+	// 			noise += amplitude * SimplexNoise(j * frequency, i * frequency);
+	// 			amplitude *= persistance;
+	// 			frequency *= lacunarity;
+	// 		}
+
+	// 		unsigned char level = BASE_LEVEL + noise * amplitude;
+
+	// 		this->_map[map_y][map_x] = level;
+	// 		map_x++;
+	// 	}
+	// 	map_y++;
+	// }
+
+	for (size_t i = 0; i < CHUNK_SIZE; i++)
+	{
+		float y = (float)this->_coord[1] / CONTINENTAL_SCALE + ((float)i / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
+		for (size_t j = 0; j < CHUNK_SIZE; j++)
+		{
+			float x = (float)this->_coord[0] / CONTINENTAL_SCALE + ((float)j / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
+
+			// Erosion
+			float persistence = 0.5f;
+			float lacunarity = 2.f;
+			float amplitude = 0.8f;
+			float frequency = 1.f / EROSION_SCALE;
+			float noise = 0.f;
+			for (size_t k = 0; k < 2; k++)
+			{
+				noise += amplitude * SimplexNoise(x * frequency, y * frequency);
+				amplitude *= persistence;
+				frequency *= lacunarity;
+			}
+			float e = erosion(noise);
+
+			// Continentalness
+			persistence = 0.55f;
+			lacunarity = 2.2f;
+			amplitude = 0.8f;
+			frequency = 1.f / CONTINENTAL_SCALE;
+			noise = 0.f;
+			for (size_t k = 0; k < 4; k++)
+			{
+				noise += amplitude * SimplexNoise(x * frequency, y * frequency);
+				amplitude *= persistence;
+				frequency *= lacunarity;
+			}
+			// if (noise < -1.f || noise > 1.f)
+			// 	std::cout << noise << std::endl;
+			int level = (int)continentalness(noise + e * 0.05);
+
+
+			this->_map[i][j] = (unsigned char)level;
+		}
+	}
+
+	this->_is_generated = true;
 }
 
 NoiseMapChunk::~NoiseMapChunk(void) {}
@@ -27,11 +101,22 @@ void NoiseMapChunk::Generate(void)
 	
 	for (size_t i = 0; i < CHUNK_SIZE; i++)
 	{
-		float y = (float)this->_coord[1] / SCALE + ((float)i / (float)CHUNK_SIZE) / SCALE;
+		float y = (float)this->_coord[1] / CONTINENTAL_SCALE + ((float)i / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
 		for (size_t j = 0; j < CHUNK_SIZE; j++)
 		{
-			float x = (float)this->_coord[0] / SCALE + ((float)j / (float)CHUNK_SIZE) / SCALE;
-			float noise = SimplexNoise(x, y);
+			float x = (float)this->_coord[0] / CONTINENTAL_SCALE + ((float)j / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
+			float persistence = 0.5f;
+			float lacunarity = 2.f;
+			float amplitude = 1.f;
+			float frequency = 1.f / CONTINENTAL_SCALE;
+			float noise = 0.f;
+			for (size_t k = 0; k < 3; k++)
+			{
+				noise += amplitude * SimplexNoise(x * frequency, y * frequency);
+				amplitude *= persistence;
+				frequency *= lacunarity;
+			}
+			// float noise = SimplexNoise(x, y);
 			this->_map[i][j] = (unsigned char)(biome_avg + (biome_half * this->_biome.topology_curve(noise)));
 		}
 	}
@@ -63,6 +148,70 @@ int NoiseMapChunk::getCoordY(void)
 std::vector<BlockLayer> NoiseMapChunk::getBlockLayers(void)
 {
 	return this->_biome.getBlockLayers();
+}
+
+unsigned char continentalness(float noise)
+{
+	float c_noise = noise + 1.f;
+	if (c_noise <= 0.5f)
+	{
+		float a = c_noise / 0.5f;
+		unsigned char c = (unsigned char)(30 + a * 25.f);
+		return c;
+	}
+	if (c_noise <= 1.5f)
+	{
+		float a = (c_noise - 0.5f) / 1.f;
+		unsigned char c = (unsigned char)(56.f + a * 14.f);
+		return c;
+	}
+	if (c_noise <= 1.9f)
+	{
+		float a = (c_noise - 1.5f) / 0.4f;
+		unsigned char c = (unsigned char)(70.f + a * 58.f);
+		return c;
+	}
+	float a = (c_noise - 1.9f) / 0.1f;
+	unsigned char c = (unsigned char)(128.f + a * 3.f);
+	return c;
+}
+
+float erosion(float noise)
+{
+	float e_noise = noise + 1.f;
+	int e;
+	if (e_noise <= 1.f)
+	{
+		float a = e_noise / 1.f;
+		e = (int)(a * 20.f);
+	}
+	else if (e_noise <= 1.65f)
+	{
+		float a = (e_noise - 1.f) / 0.65f;
+		e = (int)(20.f + a * 4.f);
+	}
+	else if (e_noise <= 1.7f)
+	{
+		float a = (e_noise - 1.65f) / 0.05f;
+		e = (int)(24.f - a * 8.f);
+	}
+	else if (e_noise <= 1.8f)
+		e = (int)8;
+	else if (e_noise <= 1.85f)
+	{
+		float a = (e_noise - 1.8f) / 0.05f;
+		e = (int)(16.f + a * 8.f);
+	}
+	else
+	{
+		float a = (e_noise - 1.85f) / 0.15;
+		e = (int)(24.f + a * 4.f);
+	}
+	if (e <= 14)
+		return (float)e / 14.f;
+
+	e -= 14;
+	return -(float)e / 14.f;
 }
 
 
@@ -166,7 +315,7 @@ float	SimplexNoise(float x, float y)
 	}
 	
 	// Add contributions from each corner to get the final noise value.
-	// The result is Chunk::SCALEd to return values in the interval [-1,1].
+	// The result is Chunk::CONTINENTAL_SCALEd to return values in the interval [-1,1].
 	
 	return 70.0 * (n0 + n1 + n2);
 }

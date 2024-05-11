@@ -3,5 +3,8 @@
 #define CHUNK_SIZE 16
 #define CHUNK_HEIGHT 256
 #define RENDER_DISTANCE 10
-#define SCALE 10.f
+#define CONTINENTAL_SCALE 7.f
+#define EROSION_SCALE 14.f
 #define BLOCK_TRANSITION 2
+
+#define BASE_LEVEL 100

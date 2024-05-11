@@ -38,3 +38,5 @@ class NoiseMapChunk
 };
 
 float	SimplexNoise(float x, float y);
+unsigned char continentalness(float noise);
+float erosion(float noise);
