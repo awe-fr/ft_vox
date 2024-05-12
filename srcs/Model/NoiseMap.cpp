@@ -1,6 +1,6 @@
 #include <Model/NoiseMap.hpp>
 
-NoiseMap::NoiseMap(Biome biome) : _biome(biome)
+NoiseMap::NoiseMap(void)
 {
     std::thread threads[RENDER_DISTANCE * 2 + 1][RENDER_DISTANCE * 2 + 1];
 
@@ -10,7 +10,7 @@ NoiseMap::NoiseMap(Biome biome) : _biome(biome)
         int x = -(int)(RENDER_DISTANCE);
         for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
         {
-            threads[i][j] = std::thread(NoiseMap::generateChunk, this, j, i, x, y, biome);
+            threads[i][j] = std::thread(NoiseMap::generateChunk, this, j, i, x, y);
             x++;
         }
         y++;
@@ -46,7 +46,7 @@ void NoiseMap::updateUp(void)
 
     std::thread threads[RENDER_DISTANCE * 2 + 1];
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-        threads[i] = std::thread(NoiseMap::generateChunk, this, i, 0, x + i, y, this->_biome);
+        threads[i] = std::thread(NoiseMap::generateChunk, this, i, 0, x + i, y);
 
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
         threads[i].join();
@@ -67,7 +67,7 @@ void NoiseMap::updateDown(void)
 
     std::thread threads[RENDER_DISTANCE * 2 + 1];
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-        threads[i] = std::thread(NoiseMap::generateChunk, this, i, RENDER_DISTANCE * 2, x + i, y, this->_biome);
+        threads[i] = std::thread(NoiseMap::generateChunk, this, i, RENDER_DISTANCE * 2, x + i, y);
 
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
         threads[i].join();
@@ -88,7 +88,7 @@ void NoiseMap::updateLeft(void)
 
     std::thread threads[RENDER_DISTANCE * 2 + 1];
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-        threads[i] = std::thread(NoiseMap::generateChunk, this, 0, i, x, y + i, this->_biome);
+        threads[i] = std::thread(NoiseMap::generateChunk, this, 0, i, x, y + i);
 
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
         threads[i].join();
@@ -109,7 +109,7 @@ void NoiseMap::updateRight(void)
 
     std::thread threads[RENDER_DISTANCE * 2 + 1];
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-        threads[i] = std::thread(NoiseMap::generateChunk, this, RENDER_DISTANCE * 2, i, x, y + i, this->_biome);
+        threads[i] = std::thread(NoiseMap::generateChunk, this, RENDER_DISTANCE * 2, i, x, y + i);
 
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
         threads[i].join();
@@ -120,7 +120,7 @@ NoiseMapChunk *NoiseMap::getChunk(size_t x, size_t y)
     return this->_map[y][x];
 }
 
-void NoiseMap::generateChunk(NoiseMap *map, size_t map_x, size_t map_y, int chunk_x, int chunk_y, Biome biome)
+void NoiseMap::generateChunk(NoiseMap *map, size_t map_x, size_t map_y, int chunk_x, int chunk_y)
 {
-    map->_map[map_y][map_x] = new NoiseMapChunk(chunk_x, chunk_y, biome);
+    map->_map[map_y][map_x] = new NoiseMapChunk(chunk_x, chunk_y);
 }

@@ -2,11 +2,18 @@
 
 BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.getCoordX(), noise_chunk.getCoordY()}
 {
-    std::vector<BlockLayer> layers = noise_chunk.getBlockLayers();
+    // std::vector<BlockLayer> layers = noise_chunk.getBlockLayers();
     for (size_t i = 0; i < CHUNK_SIZE; i++)
     {
+        float y_t = (float)this->_coord[1] / TEMPERATURE_SCALE + ((float)i / (float)CHUNK_SIZE) / TEMPERATURE_SCALE;
         for (size_t j = 0; j < CHUNK_SIZE; j++)
         {
+            float x_t = (float)this->_coord[0] / TEMPERATURE_SCALE + ((float)j / (float)CHUNK_SIZE) / TEMPERATURE_SCALE;
+
+            float temp_noise = octaves(x_t, y_t, 0.5f, 2.f, 1.f, 1.f / TEMPERATURE_SCALE, 1);
+            Biome biome = get_biome(temp_noise);
+            std::vector<BlockLayer> layers = biome.getBlockLayers();
+
             unsigned char height = noise_chunk.getValue(j, i);
             for (size_t k = CHUNK_HEIGHT - 1; k >= height; k--)
                 this->_map[i][j][k] = Void();
@@ -28,6 +35,15 @@ BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.get
             }
         }
     }
+}
+
+Biome get_biome(float noise)
+{
+    if (noise <= -0.333f)
+        return TestSnow();
+    if (noise <= 0.333f)
+        return TestPlain();
+    return TestDesert();
 }
 
 BlockMapChunk::~BlockMapChunk(void) {}

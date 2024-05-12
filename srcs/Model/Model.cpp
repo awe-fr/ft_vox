@@ -2,7 +2,7 @@
 
 Model::Model(void)
 {
-    this->_noise_map = new NoiseMap(Test());
+    this->_noise_map = new NoiseMap();
     this->_block_map = new BlockMap(this->_noise_map);
 }
 

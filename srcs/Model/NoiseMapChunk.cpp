@@ -1,39 +1,7 @@
 #include <Model/NoiseMapChunk.hpp>
 
-NoiseMapChunk::NoiseMapChunk(int x, int y, Biome biome) : _coord{x, y}, _is_generated(false), _biome(biome)
+NoiseMapChunk::NoiseMapChunk(int x, int y) : _coord{x, y}, _is_generated(false)
 {
-	// this->Generate();
-
-	// int start_y = y * CHUNK_SIZE;
-	// size_t map_y = 0;
-	// for (int i = start_y; i < start_y + 16; i++)
-	// {
-	// 	size_t map_x = 0;
-	// 	int start_x = x * CHUNK_SIZE;
-	// 	for (int j = start_x; j < start_x + 16; j++)
-	// 	{
-	// 		float amplitude = 20.f;
-	// 		float frequency = 1.f / 3.f;
-	// 		float persistance = 0.5f;
-	// 		float lacunarity = 2.f;
-	// 		float noise = 0.f;
-	// 		size_t nb_octave = 4;
-
-	// 		for (size_t k = 0; k < nb_octave; k++)
-	// 		{
-	// 			noise += amplitude * SimplexNoise(j * frequency, i * frequency);
-	// 			amplitude *= persistance;
-	// 			frequency *= lacunarity;
-	// 		}
-
-	// 		unsigned char level = BASE_LEVEL + noise * amplitude;
-
-	// 		this->_map[map_y][map_x] = level;
-	// 		map_x++;
-	// 	}
-	// 	map_y++;
-	// }
-
 	for (size_t i = 0; i < CHUNK_SIZE; i++)
 	{
 		float y_c = (float)this->_coord[1] / CONTINENTAL_SCALE + ((float)i / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
@@ -46,45 +14,15 @@ NoiseMapChunk::NoiseMapChunk(int x, int y, Biome biome) : _coord{x, y}, _is_gene
 			float x_pv = (float)this->_coord[0] / PEAKS_VALLEYS_SCALE + ((float)j / (float)CHUNK_SIZE) / PEAKS_VALLEYS_SCALE;
 
 			// Erosion
-			float persistence = 0.5f;
-			float lacunarity = 2.f;
-			float amplitude = 0.8f;
-			float frequency = 1.f / EROSION_SCALE;
-			float noise = 0.f;
-			for (size_t k = 0; k < 2; k++)
-			{
-				noise += amplitude * SimplexNoise(x_e * frequency, y_e * frequency);
-				amplitude *= persistence;
-				frequency *= lacunarity;
-			}
+			float noise = octaves(x_e, y_e, 0.5f, 2.f, 0.8f, 1.f / EROSION_SCALE, 2);
 			float e = erosion(noise);
 
 			// Continentalness
-			persistence = 0.55f;
-			lacunarity = 2.2f;
-			amplitude = 0.7f;
-			frequency = 1.f / CONTINENTAL_SCALE;
-			noise = 0.f;
-			for (size_t k = 0; k < 5; k++)
-			{
-				noise += amplitude * SimplexNoise(x_c * frequency, y_c * frequency);
-				amplitude *= persistence;
-				frequency *= lacunarity;
-			}
+			noise = octaves(x_c, y_c, 0.55f, 2.2f, 0.7f, 1.f / CONTINENTAL_SCALE, 5);
 			float c = continentalness(noise);
 
 			// Peaks and valleys
-			persistence = 0.5f;
-			lacunarity = 2.f;
-			amplitude = 1.f;
-			frequency = 1.f / PEAKS_VALLEYS_SCALE;
-			noise = 0.f;
-			for (size_t k = 0; k < 4; k++)
-			{
-				noise += amplitude * SimplexNoise(x_pv * frequency, y_pv * frequency);
-				amplitude *= persistence;
-				frequency *= lacunarity;
-			}
+			noise = octaves(x_pv, y_pv, 0.5f, 2.f, 1.f, 1.f / PEAKS_VALLEYS_SCALE, 4);
 			float pv = peaks_valleys(noise);
 
 			float e_weight = 1.8f;
@@ -114,39 +52,6 @@ const char *NoiseMapChunk::OutOfBoundsException::what() const throw()
 	return "Value out of bounds";
 }
 
-void NoiseMapChunk::Generate(void)
-{
-	if (this->_is_generated)
-		return;
-
-	float biome_half = (float)(this->_biome.max_height - this->_biome.min_height) / 2.f;
-	float biome_avg = (float)this->_biome.min_height + biome_half;
-	
-	for (size_t i = 0; i < CHUNK_SIZE; i++)
-	{
-		float y = (float)this->_coord[1] / CONTINENTAL_SCALE + ((float)i / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
-		for (size_t j = 0; j < CHUNK_SIZE; j++)
-		{
-			float x = (float)this->_coord[0] / CONTINENTAL_SCALE + ((float)j / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
-			float persistence = 0.5f;
-			float lacunarity = 2.f;
-			float amplitude = 1.f;
-			float frequency = 1.f / CONTINENTAL_SCALE;
-			float noise = 0.f;
-			for (size_t k = 0; k < 3; k++)
-			{
-				noise += amplitude * SimplexNoise(x * frequency, y * frequency);
-				amplitude *= persistence;
-				frequency *= lacunarity;
-			}
-			// float noise = SimplexNoise(x, y);
-			this->_map[i][j] = (unsigned char)(biome_avg + (biome_half * this->_biome.topology_curve(noise)));
-		}
-	}
-
-	this->_is_generated = true;
-}
-
 unsigned char NoiseMapChunk::getValue(size_t x, size_t y)
 {
 	if (!this->_is_generated)
@@ -168,42 +73,10 @@ int NoiseMapChunk::getCoordY(void)
 	return this->_coord[1];
 }
 
-std::vector<BlockLayer> NoiseMapChunk::getBlockLayers(void)
-{
-	return this->_biome.getBlockLayers();
-}
-
 float continentalness(float noise)
 {
 	float c_noise = noise + 1.f;
-	// if (c_noise <= 0.5f)
-	// {
-	// 	float a = c_noise / 0.5f;
-	// 	unsigned char c = (unsigned char)(30 + a * 25.f);
-	// 	return c;
-	// }
-	// if (c_noise <= 1.4f)
-	// {
-	// 	float a = (c_noise - 0.5f) / 1.f;
-	// 	unsigned char c = (unsigned char)(56.f + a * 14.f);
-	// 	return c;
-	// }
-	// if (c_noise <= 1.8f)
-	// {
-	// 	float a = (c_noise - 1.4f) / 0.4f;
-	// 	unsigned char c = (unsigned char)(70.f + a * 58.f);
-	// 	return c;
-	// }
-	// float a = (c_noise - 1.8f) / 0.2f;
-	// unsigned char c = (unsigned char)(128.f + a * 3.f);
-	// return c;
 
-	// if (c_noise <= 0.1f)
-	// {
-	// 	float a = c_noise / 0.1f;
-	// 	float c = 1.f - a * 0.95f;
-	// 	return c;
-	// }
 	if (c_noise <= 0.5)
 	{
 		float c = 0.05f;
@@ -250,42 +123,8 @@ float continentalness(float noise)
 
 float erosion(float noise)
 {
-	// float e_noise = noise + 1.f;
-	// int e;
-	// if (e_noise <= 1.f)
-	// {
-	// 	float a = e_noise / 1.f;
-	// 	e = (int)(a * 20.f);
-	// }
-	// else if (e_noise <= 1.65f)
-	// {
-	// 	float a = (e_noise - 1.f) / 0.65f;
-	// 	e = (int)(20.f + a * 4.f);
-	// }
-	// else if (e_noise <= 1.7f)
-	// {
-	// 	float a = (e_noise - 1.65f) / 0.05f;
-	// 	e = (int)(24.f - a * 8.f);
-	// }
-	// else if (e_noise <= 1.8f)
-	// 	e = (int)8;
-	// else if (e_noise <= 1.85f)
-	// {
-	// 	float a = (e_noise - 1.8f) / 0.05f;
-	// 	e = (int)(16.f + a * 8.f);
-	// }
-	// else
-	// {
-	// 	float a = (e_noise - 1.85f) / 0.15;
-	// 	e = (int)(24.f + a * 4.f);
-	// }
-	// if (e <= 14)
-	// 	return (float)e / 14.f;
-
-	// e -= 14;
-	// return -(float)e / 14.f;
-
 	float e_noise = noise + 1.f;
+
 	if (e_noise <= 0.22f)
 	{
 		float a = e_noise / 0.15f;
@@ -341,6 +180,7 @@ float erosion(float noise)
 float peaks_valleys(float noise)
 {
 	float pv_noise = noise + 1.f;
+
 	if (pv_noise <= 0.2f)
 	{
 		float a = pv_noise / 0.2f;
@@ -387,6 +227,18 @@ float peaks_valleys(float noise)
 	return pv;
 }
 
+float octaves(float x, float y, float persistence, float lacunarity, float amplitude, float frequency, size_t nb_octaves)
+{
+	float noise = 0.f;
+	for (size_t i = 0; i < nb_octaves; i++)
+	{
+		noise += amplitude * SimplexNoise(x * frequency, y * frequency);
+		amplitude *= persistence;
+		frequency *= lacunarity;
+	}
+
+	return noise;
+}
 
 
 
