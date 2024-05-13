@@ -82,7 +82,11 @@ Skybox::Skybox(void) {
 
 }
 
-Skybox::~Skybox(void) {}
+Skybox::~Skybox(void) {
+	glDeleteBuffers(1, &this->_VBO);
+	glDeleteBuffers(1, &this->_EBO);
+	glDeleteVertexArrays(1 , &this->_VAO);
+}
 
 unsigned int	Skybox::GiveVAO() {
 	return (this->_VAO);

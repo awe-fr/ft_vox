@@ -93,7 +93,15 @@ void Controller::loop(void)
             stop.unlock();
             current_pos = new_pos;
         }
+        stop.lock();
+        if (!this->queueChunk.empty()) {
+            ViewChunk *temp = this->queueChunk.front();
+            this->queueChunk.erase(this->queueChunk.begin());
+            delete temp;
+        }
+        stop.unlock();
 	}
+    // delete skybox;
     this->_closeThread = true;
     render.join();
 }
@@ -128,21 +136,21 @@ void Controller::updateMap(Controller *control, std::array<int, 2> prev_pos, std
     if (new_pos[0] > prev_pos[0])
     {
         control->_model->updateRight();
-        control->_view->updateRight(control->_model->getBlockMap());
+        control->_view->updateRight(control->_model->getBlockMap(), &control->queueChunk);
     }
     else if (new_pos[0] < prev_pos[0])
     {
         control->_model->updateLeft();
-        control->_view->updateLeft(control->_model->getBlockMap());
+        control->_view->updateLeft(control->_model->getBlockMap(), &control->queueChunk);
     }
     if (new_pos[1] > prev_pos[1])
     {
         control->_model->updateDown();
-        control->_view->updateDown(control->_model->getBlockMap());
+        control->_view->updateDown(control->_model->getBlockMap(), &control->queueChunk);
     }
     else if (new_pos[1] < prev_pos[1])
     {
         control->_model->updateUp();
-        control->_view->updateUp(control->_model->getBlockMap());
+        control->_view->updateUp(control->_model->getBlockMap(), &control->queueChunk);
     }
 }

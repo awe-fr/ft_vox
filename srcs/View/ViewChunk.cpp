@@ -47,7 +47,11 @@ void ViewChunk::bindBuffer() {
 	this->_binded = true;
 }
 
-ViewChunk::~ViewChunk(void) {}
+ViewChunk::~ViewChunk(void) {
+	glDeleteBuffers(1, &this->_GlTextureBuffer);
+	glDeleteBuffers(1, &this->_GlVertexBuffer);
+	glDeleteVertexArrays(1 , &this->_VAO);
+}
 
 bool ViewChunk::IsBinded() {
 	return (this->_binded);

@@ -21,6 +21,7 @@ class Controller
         void isOkayToBind(int i, int j, ViewChunk *chunk, bool reset);
         void loop(void);
         std::vector<CustomVec> queue;
+        std::vector<ViewChunk *>queueChunk;
         bool    _closeThread;
     private:
         static void updateMap(Controller *control, std::array<int, 2> prev_pos, std::array<int, 2> new_pos);

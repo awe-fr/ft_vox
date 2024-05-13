@@ -100,22 +100,22 @@ void getDeltaTime(void) {
 	last = now;
 }
 
-void View::updateUp(BlockMap *block_map)
+void View::updateUp(BlockMap *block_map, std::vector<ViewChunk *> *queueChunk)
 {
-    this->_map->updateUp(block_map);
+    this->_map->updateUp(block_map, queueChunk);
 }
 
-void View::updateDown(BlockMap *block_map)
+void View::updateDown(BlockMap *block_map, std::vector<ViewChunk *> *queueChunk)
 {
-    this->_map->updateDown(block_map);
+    this->_map->updateDown(block_map, queueChunk);
 }
 
-void View::updateLeft(BlockMap *block_map)
+void View::updateLeft(BlockMap *block_map, std::vector<ViewChunk *> *queueChunk)
 {
-    this->_map->updateLeft(block_map);
+    this->_map->updateLeft(block_map, queueChunk);
 }
 
-void View::updateRight(BlockMap *block_map)
+void View::updateRight(BlockMap *block_map, std::vector<ViewChunk *> *queueChunk)
 {
-    this->_map->updateRight(block_map);
+    this->_map->updateRight(block_map, queueChunk);
 }

@@ -24,10 +24,10 @@ class View
         GLuint &getModelId(void);
         GLuint &getSkyboxId(void);
 
-        void updateUp(BlockMap *block_map);
-        void updateDown(BlockMap *block_map);
-        void updateLeft(BlockMap *block_map);
-        void updateRight(BlockMap *block_map);
+        void updateUp(BlockMap *block_map, std::vector<ViewChunk *> *queueChunk);
+        void updateDown(BlockMap *block_map, std::vector<ViewChunk *> *queueChunk);
+        void updateLeft(BlockMap *block_map, std::vector<ViewChunk *> *queueChunk);
+        void updateRight(BlockMap *block_map, std::vector<ViewChunk *> *queueChunk);
     
     private:
         ViewMap *_map;
