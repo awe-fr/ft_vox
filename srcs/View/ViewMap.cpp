@@ -25,8 +25,8 @@ ViewChunk *ViewMap::getChunk(size_t x, size_t y)
 
 void ViewMap::updateUp(BlockMap *block_map)
 {
-    // for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     delete this->_map[RENDER_DISTANCE * 2][i];
+    for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
+        delete this->_map[RENDER_DISTANCE * 2][i];
     for (size_t i = RENDER_DISTANCE * 2; i > 0; i--)
     {
         for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
@@ -39,8 +39,8 @@ void ViewMap::updateUp(BlockMap *block_map)
 
 void ViewMap::updateDown(BlockMap *block_map)
 {
-    // for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     delete this->_map[0][i];
+    for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
+        delete this->_map[0][i];
     for (size_t i = 0; i < RENDER_DISTANCE * 2; i++)
     {
         for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
@@ -53,8 +53,8 @@ void ViewMap::updateDown(BlockMap *block_map)
 
 void ViewMap::updateLeft(BlockMap *block_map)
 {
-    // for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     delete this->_map[i][RENDER_DISTANCE * 2];
+    for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
+        delete this->_map[i][RENDER_DISTANCE * 2];
     for (size_t i = RENDER_DISTANCE * 2; i > 0; i--)
     {
         for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
@@ -67,8 +67,8 @@ void ViewMap::updateLeft(BlockMap *block_map)
 
 void ViewMap::updateRight(BlockMap *block_map)
 {
-    // for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     delete this->_map[i][0];
+    for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
+        delete this->_map[i][0];
     for (size_t i = 0; i < RENDER_DISTANCE * 2; i++)
     {
         for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)

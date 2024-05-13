@@ -39,6 +39,7 @@ View::~View(void)
     delete this->_player_info;
     delete this->_window_app;
     delete this->_map;
+    delete this->_skybox;
 }
 
 ViewMap *View::getViewMap(void)
