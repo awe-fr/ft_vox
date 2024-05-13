@@ -55,6 +55,24 @@ class Desert : public Biome
         Desert(void);
 };
 
+class TestPlain : public Biome
+{
+    public:
+        TestPlain(void);
+};
+
+class TestDesert : public Biome
+{
+    public:
+        TestDesert(void);
+};
+
+class TestSnow : public Biome
+{
+    public:
+        TestSnow(void);
+};
+
 float plain_curve(float noise);
 float mountain_curve(float noise);
 float desert_curve(float noise);

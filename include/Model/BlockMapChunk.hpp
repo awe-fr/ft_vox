@@ -18,3 +18,5 @@ class BlockMapChunk
         Block       _map[CHUNK_SIZE][CHUNK_SIZE][CHUNK_HEIGHT];
         const int   _coord[2];
 };
+
+Biome get_biome(float noise);

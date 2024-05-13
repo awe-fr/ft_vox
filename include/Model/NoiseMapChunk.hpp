@@ -11,7 +11,7 @@
 class NoiseMapChunk
 {
 	public:
-		NoiseMapChunk(int x, int y, Biome biome);
+		NoiseMapChunk(int x, int y);
 		~NoiseMapChunk(void);
 
 		class NotGeneratedException : public std::exception
@@ -24,17 +24,18 @@ class NoiseMapChunk
 			virtual const char *what() const throw();
 		};
 
-		void					Generate(void);
 		unsigned char			getValue(size_t x, size_t y);
 		int						getCoordX(void);
 		int						getCoordY(void);
-		std::vector<BlockLayer>	getBlockLayers(void);
 
 	private:
 		unsigned char	_map[CHUNK_SIZE][CHUNK_SIZE];
 		const int		_coord[2];
 		bool			_is_generated;
-		Biome			_biome;
 };
 
 float	SimplexNoise(float x, float y);
+float	octaves(float x, float y, float persistence, float lacunarity, float amplitude, float frequency, size_t nb_octaves);
+float 	continentalness(float noise);
+float 	erosion(float noise);
+float 	peaks_valleys(float noise);
