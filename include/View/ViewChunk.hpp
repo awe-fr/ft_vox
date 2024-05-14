@@ -32,14 +32,16 @@ class	ViewChunk {
         ViewChunk(BlockMapChunk *block_chunk);
         ~ViewChunk(void);
 
-		std::vector<glm::vec2>	GiveTextureBuffer();
-		std::vector<glm::vec3>	GiveVertexBuffer();
 		glm::mat4				GiveModel();
 		GLuint					GiveGlTextureBuffer();
+		GLuint					GiveGlTextureBufferWaheur();
 		GLuint					GiveGlVertexBuffer();
+		GLuint					GiveGlVertexBufferWaheur();
+		int						GiveVertexBufferSizeWaheur();
 		int						GiveTextureBufferSize();
 		int						GiveVertexBufferSize();
 		void					bindBuffer();
-		GLuint					GiveVAO(void);
+		GLuint					GiveVAO();
+		GLuint					GiveVAOWaheur();
 		bool					IsBinded();
 };

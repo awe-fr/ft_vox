@@ -46,13 +46,6 @@ void NoiseMap::updateUp(void)
 
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
         this->_map[0][i] = new NoiseMapChunk(x + i, y);
-
-    // std::thread threads[RENDER_DISTANCE * 2 + 1];
-    // for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     threads[i] = std::thread(NoiseMap::generateChunk, this, i, 0, x + i, y);
-
-    // for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     threads[i].join();
 }
 
 void NoiseMap::updateDown(void)
@@ -70,13 +63,6 @@ void NoiseMap::updateDown(void)
 
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
         this->_map[RENDER_DISTANCE * 2][i] = new NoiseMapChunk(x + i, y);
-
-    // std::thread threads[RENDER_DISTANCE * 2 + 1];
-    // for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     threads[i] = std::thread(NoiseMap::generateChunk, this, i, RENDER_DISTANCE * 2, x + i, y);
-
-    // for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     threads[i].join();
 }
 
 void NoiseMap::updateLeft(void)
@@ -94,13 +80,6 @@ void NoiseMap::updateLeft(void)
 
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
         this->_map[i][0] = new NoiseMapChunk(x, y + i);
-
-    // std::thread threads[RENDER_DISTANCE * 2 + 1];
-    // for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     threads[i] = std::thread(NoiseMap::generateChunk, this, 0, i, x, y + i);
-
-    // for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     threads[i].join();
 }
 
 void NoiseMap::updateRight(void)
@@ -118,13 +97,6 @@ void NoiseMap::updateRight(void)
 
     for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
         this->_map[i][RENDER_DISTANCE * 2] = new NoiseMapChunk(x, y + i);
-
-    // std::thread threads[RENDER_DISTANCE * 2 + 1];
-    // for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     threads[i] = std::thread(NoiseMap::generateChunk, this, RENDER_DISTANCE * 2, i, x, y + i);
-
-    // for (int i = 0; i <= RENDER_DISTANCE * 2; i++)
-    //     threads[i].join();
 }
 
 NoiseMapChunk *NoiseMap::getChunk(size_t x, size_t y)

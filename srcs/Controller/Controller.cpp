@@ -32,11 +32,15 @@ void Controller::loop(void)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glEnable(GL_CULL_FACE);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glUseProgram(this->_view->getProgramId());
 
         ViewMap *map = this->_view->getViewMap();
         player = this->_view->getPlayerInfo();
+
+        GLuint trans = glGetUniformLocation(this->_view->getProgramId(), "trans");
 
         glBindTexture(GL_TEXTURE_2D, this->_view->getTextu());
         for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
@@ -57,13 +61,42 @@ void Controller::loop(void)
                 glUniformMatrix4fv(this->_view->getViewId(), 1, GL_FALSE, &player->GiveView()[0][0]);
                 glUniformMatrix4fv(this->_view->getModelId(), 1, GL_FALSE, &chunk->GiveModel()[0][0]);
 
+                glUniform1f(trans, 1);
+
                 glEnableVertexAttribArray(0);
                 glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlVertexBuffer());
                 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 
-                glDrawArrays(GL_TRIANGLES, 0, chunk->GiveVertexBufferSize());
+                glDrawArrays(GL_TRIANGLES, 0, chunk->GiveVertexBufferSize());                
+            }
+        }
+        for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
+        {
+            for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
+            {
+                ViewChunk *chunk = map->getChunk(j, i);
+                if (chunk->IsBinded() == false) {
+                    continue;
+                }
+                if (chunk->GiveVertexBufferSizeWaheur() != 0) {
+                    glBindVertexArray(chunk->GiveVAOWaheur());
+                    glEnableVertexAttribArray(1);
+                    glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlTextureBufferWaheur());
+                    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+
+                    glUniformMatrix4fv(this->_view->getProjectionId(), 1, GL_FALSE, &player->GiveProjection()[0][0]);
+                    glUniformMatrix4fv(this->_view->getViewId(), 1, GL_FALSE, &player->GiveView()[0][0]);
+                    glUniformMatrix4fv(this->_view->getModelId(), 1, GL_FALSE, &chunk->GiveModel()[0][0]);
+
+                    glUniform1f(trans, 0.7);
+
+                    glEnableVertexAttribArray(0);
+                    glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlVertexBufferWaheur());
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+
+                    glDrawArrays(GL_TRIANGLES, 0, chunk->GiveVertexBufferSizeWaheur());
+                }
                 glDisableVertexAttribArray(0);
-                
             }
         }
         isOkayToBind(0, 0, NULL, true);
@@ -101,7 +134,6 @@ void Controller::loop(void)
         }
         stop.unlock();
 	}
-    // delete skybox;
     this->_closeThread = true;
     render.join();
 }

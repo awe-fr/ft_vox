@@ -30,7 +30,6 @@ View::View(BlockMap *block_map)
 	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-	/*temp*/
 	glBindTexture(GL_TEXTURE_2D, this->_textu);
 }
 
