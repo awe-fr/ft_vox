@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Block.hpp"
+#include "ModelVars.hpp"
 
 class BlockLayer
 {
