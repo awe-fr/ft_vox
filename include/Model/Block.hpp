@@ -60,3 +60,9 @@ class SnowyGrass : public Block
     public:
         SnowyGrass(void);
 };
+
+class Waheur : public Block
+{
+    public:
+        Waheur(void);
+};

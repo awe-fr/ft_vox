@@ -12,6 +12,10 @@ ViewChunk::ViewChunk(BlockMapChunk *block_chunk) : _coord{block_chunk->getCoordX
                 Block block = block_chunk->getBlock(j, i, k);
                 if (block.getName() == "void")
                     continue;
+				if (block.getName() == "waheur" && block_chunk->getBlock(j, i, k + 1).getName() == "void") {
+					this->WaheurAssignment(j, i, k, block.getTextureTop());
+					continue;
+				}
                 if (k == CHUNK_HEIGHT - 1 || block_chunk->getBlock(j, i, k + 1).getName() == "void")
                     this->VertexUp(j, i, k, block.getTextureTop());
                 if (k == 0 || block_chunk->getBlock(j, i, k - 1).getName() == "void")
@@ -44,6 +48,17 @@ void ViewChunk::bindBuffer() {
 	glBindBuffer(GL_ARRAY_BUFFER, this->_GlTextureBuffer);
 	glBufferData(GL_ARRAY_BUFFER, this->_TextureBuffer.size() * sizeof(glm::vec2), &this->_TextureBuffer[0], GL_DYNAMIC_DRAW);
 	
+	glGenVertexArrays(1, &this->_VAOWaheur);
+	glBindVertexArray(this->_VAOWaheur);
+
+	glGenBuffers(1, &this->_GlVertexBufferWaheur);
+	glBindBuffer(GL_ARRAY_BUFFER, this->_GlVertexBufferWaheur);
+	glBufferData(GL_ARRAY_BUFFER, this->_VertexBufferWaheur.size() * sizeof(glm::vec3), &this->_VertexBufferWaheur[0], GL_DYNAMIC_DRAW);
+
+	glGenBuffers(1, &this->_GlTextureBufferWaheur);
+	glBindBuffer(GL_ARRAY_BUFFER, this->_GlTextureBufferWaheur);
+	glBufferData(GL_ARRAY_BUFFER, this->_TextureBufferWaheur.size() * sizeof(glm::vec2), &this->_TextureBufferWaheur[0], GL_DYNAMIC_DRAW);
+
 	this->_binded = true;
 }
 
@@ -51,10 +66,29 @@ ViewChunk::~ViewChunk(void) {
 	glDeleteBuffers(1, &this->_GlTextureBuffer);
 	glDeleteBuffers(1, &this->_GlVertexBuffer);
 	glDeleteVertexArrays(1 , &this->_VAO);
+
+	glDeleteBuffers(1, &this->_GlTextureBufferWaheur);
+	glDeleteBuffers(1, &this->_GlVertexBufferWaheur);
+	glDeleteVertexArrays(1 , &this->_VAOWaheur);
 }
 
 bool ViewChunk::IsBinded() {
 	return (this->_binded);
+}
+
+void ViewChunk::WaheurAssignment(int x, int y, int z, const std::array<float, 4> array) {
+	this->_VertexBufferWaheur.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 1.0f, (y * 1) + 1.0001f));
+	this->_VertexBufferWaheur.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 1.0f, (y * 1) + (-0.0001f)));
+	this->_VertexBufferWaheur.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0f, (y * 1) + (-0.0001f)));
+	this->_VertexBufferWaheur.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 1.0f, (y * 1) + 1.0001f));
+	this->_VertexBufferWaheur.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0f, (y * 1) + (-0.0001f)));
+	this->_VertexBufferWaheur.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0f, (y * 1) + 1.0001f));
+	this->_TextureBufferWaheur.push_back(glm::vec2(array[2], array[0]));
+	this->_TextureBufferWaheur.push_back(glm::vec2(array[2], array[1]));
+	this->_TextureBufferWaheur.push_back(glm::vec2(array[3], array[1]));
+	this->_TextureBufferWaheur.push_back(glm::vec2(array[2], array[0]));
+	this->_TextureBufferWaheur.push_back(glm::vec2(array[3], array[1]));
+	this->_TextureBufferWaheur.push_back(glm::vec2(array[3], array[0]));
 }
 
 void	ViewChunk::VertexUp(int x, int y, int z, const std::array<float, 4> array) {
