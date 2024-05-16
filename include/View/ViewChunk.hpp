@@ -6,17 +6,22 @@
 
 class	ViewChunk {
 	private:
+		std::vector<glm::vec3>	_VertexBufferNormal;
+		GLuint					_GlVertexBufferNormal;
+
 		std::vector<glm::vec2>	_TextureBuffer;
 		std::vector<glm::vec3>	_VertexBuffer;
-		std::vector<glm::vec2>	_TextureBufferWaheur;
-		std::vector<glm::vec3>	_VertexBufferWaheur;
-		glm::mat4				_model;
 		GLuint 					_GlTextureBuffer;
 		GLuint					_GlVertexBuffer;
 		GLuint					_VAO;
+
+		std::vector<glm::vec2>	_TextureBufferWaheur;
+		std::vector<glm::vec3>	_VertexBufferWaheur;
 		GLuint 					_GlTextureBufferWaheur;
 		GLuint					_GlVertexBufferWaheur;
 		GLuint					_VAOWaheur;
+
+		glm::mat4				_model;
         const int               _coord[2];
 		bool					_binded;
 
@@ -32,16 +37,20 @@ class	ViewChunk {
         ViewChunk(BlockMapChunk *block_chunk);
         ~ViewChunk(void);
 
-		glm::mat4				GiveModel();
+
+		GLuint					GiveGlVertexBufferNormal();
 		GLuint					GiveGlTextureBuffer();
-		GLuint					GiveGlTextureBufferWaheur();
 		GLuint					GiveGlVertexBuffer();
-		GLuint					GiveGlVertexBufferWaheur();
-		int						GiveVertexBufferSizeWaheur();
+		GLuint					GiveVAO();
 		int						GiveTextureBufferSize();
 		int						GiveVertexBufferSize();
-		void					bindBuffer();
-		GLuint					GiveVAO();
+		
+		GLuint					GiveGlTextureBufferWaheur();
+		GLuint					GiveGlVertexBufferWaheur();
 		GLuint					GiveVAOWaheur();
+		int						GiveVertexBufferSizeWaheur();
+		
+		glm::mat4				GiveModel();
+		void					bindBuffer();
 		bool					IsBinded();
 };

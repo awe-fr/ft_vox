@@ -67,7 +67,11 @@ void Controller::loop(void)
                 glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlVertexBuffer());
                 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 
-                glDrawArrays(GL_TRIANGLES, 0, chunk->GiveVertexBufferSize());                
+                glEnableVertexAttribArray(2);
+                glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlVertexBufferNormal());
+                glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+
+                glDrawArrays(GL_TRIANGLES, 0, chunk->GiveVertexBufferSize());
             }
         }
         for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)

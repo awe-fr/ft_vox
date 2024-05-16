@@ -57,6 +57,8 @@ void	PlayerInfo::Movements(GLFWwindow *Window) {
 	this->_Up = glm::cross(this->_Right, this->_Direction);
 	this->_Projection = glm::perspective(glm::radians(this->_FOV), (float) WIDTH / (float)HEIGHT, 0.1f, 500.0f);
 	this->_View = glm::lookAt(this->_Position, this->_Position + this->_Direction, this->_Up);
+
+	// std::cout << this->_Position.x << " " << this->_Position.y << " " << this->_Position.z << " " << std::endl;
 }
 
 std::array<int, 2> PlayerInfo::getChunkPos(void)

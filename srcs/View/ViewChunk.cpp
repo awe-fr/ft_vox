@@ -42,27 +42,33 @@ void ViewChunk::bindBuffer() {
 
 	glGenBuffers(1, &this->_GlVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, this->_GlVertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, this->_VertexBuffer.size() * sizeof(glm::vec3), &this->_VertexBuffer[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, this->_VertexBuffer.size() * sizeof(glm::vec3), &this->_VertexBuffer[0], GL_STATIC_DRAW);
 
 	glGenBuffers(1, &this->_GlTextureBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, this->_GlTextureBuffer);
-	glBufferData(GL_ARRAY_BUFFER, this->_TextureBuffer.size() * sizeof(glm::vec2), &this->_TextureBuffer[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, this->_TextureBuffer.size() * sizeof(glm::vec2), &this->_TextureBuffer[0], GL_STATIC_DRAW);
+	
+	glGenBuffers(1, &this->_GlVertexBufferNormal);
+	glBindBuffer(GL_ARRAY_BUFFER, this->_GlVertexBufferNormal);
+	glBufferData(GL_ARRAY_BUFFER, this->_VertexBufferNormal.size() * sizeof(glm::vec3), &this->_VertexBufferNormal[0], GL_STATIC_DRAW);
 	
 	glGenVertexArrays(1, &this->_VAOWaheur);
 	glBindVertexArray(this->_VAOWaheur);
 
 	glGenBuffers(1, &this->_GlVertexBufferWaheur);
 	glBindBuffer(GL_ARRAY_BUFFER, this->_GlVertexBufferWaheur);
-	glBufferData(GL_ARRAY_BUFFER, this->_VertexBufferWaheur.size() * sizeof(glm::vec3), &this->_VertexBufferWaheur[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, this->_VertexBufferWaheur.size() * sizeof(glm::vec3), &this->_VertexBufferWaheur[0], GL_STATIC_DRAW);
 
 	glGenBuffers(1, &this->_GlTextureBufferWaheur);
 	glBindBuffer(GL_ARRAY_BUFFER, this->_GlTextureBufferWaheur);
-	glBufferData(GL_ARRAY_BUFFER, this->_TextureBufferWaheur.size() * sizeof(glm::vec2), &this->_TextureBufferWaheur[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, this->_TextureBufferWaheur.size() * sizeof(glm::vec2), &this->_TextureBufferWaheur[0], GL_STATIC_DRAW);
+
 
 	this->_binded = true;
 }
 
 ViewChunk::~ViewChunk(void) {
+	glDeleteBuffers(1, &this->_GlVertexBufferNormal);
 	glDeleteBuffers(1, &this->_GlTextureBuffer);
 	glDeleteBuffers(1, &this->_GlVertexBuffer);
 	glDeleteVertexArrays(1 , &this->_VAO);
@@ -70,6 +76,7 @@ ViewChunk::~ViewChunk(void) {
 	glDeleteBuffers(1, &this->_GlTextureBufferWaheur);
 	glDeleteBuffers(1, &this->_GlVertexBufferWaheur);
 	glDeleteVertexArrays(1 , &this->_VAOWaheur);
+
 }
 
 bool ViewChunk::IsBinded() {
@@ -98,6 +105,11 @@ void	ViewChunk::VertexUp(int x, int y, int z, const std::array<float, 4> array) 
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 1.0f, (y * 1) + 1.0001f));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0f, (y * 1) + (-0.0001f)));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0f, (y * 1) + 1.0001f));
+
+	for (int i = 0; i < 6; ++i) {
+        this->_VertexBufferNormal.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+
 	this->_TextureBuffer.push_back(glm::vec2(array[2], array[0]));
 	this->_TextureBuffer.push_back(glm::vec2(array[2], array[1]));
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[1]));
@@ -113,6 +125,11 @@ void	ViewChunk::VertexDown(int x, int y, int z, const std::array<float, 4> array
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 0.0f, (y * 1) + 1.0001f));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 0.0f, (y * 1) + (-0.0001f)));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + 0.0f, (y * 1) + (-0.0001f)));
+	
+	for (int i = 0; i < 6; ++i) {
+        this->_VertexBufferNormal.push_back(glm::vec3(0.0f, -1.0f, 0.0f));
+    }
+	
 	this->_TextureBuffer.push_back(glm::vec2(array[2], array[1]));
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[1]));
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[0]));
@@ -128,6 +145,11 @@ void	ViewChunk::VertexRight(int x, int y, int z, const std::array<float, 4> arra
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + (-0.0001f), (y * 1) + (-0.0001f)));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0001f, (y * 1) + 1.0001f));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 0.0f, (z * 1) + 1.0001f, (y * 1) + (-0.0001f)));
+
+	for (int i = 0; i < 6; ++i) {
+        this->_VertexBufferNormal.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
+    }
+
 	this->_TextureBuffer.push_back(glm::vec2(array[2], array[1]));
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[1]));
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[0]));
@@ -144,6 +166,11 @@ void	ViewChunk::VertexLeft(int x, int y, int z, const std::array<float, 4> array
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + (-0.0001f), (y * 1) + (-0.0001f)));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + 1.0001f, (y * 1) + 1.0001f));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0f, (z * 1) + (-0.0001f), (y * 1) + 1.0001f));
+
+	for (int i = 0; i < 6; ++i) {
+        this->_VertexBufferNormal.push_back(glm::vec3(-1.0f, 0.0f, 0.0f));
+    }
+
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[1]));
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[0]));
 	this->_TextureBuffer.push_back(glm::vec2(array[2], array[0]));
@@ -159,6 +186,11 @@ void	ViewChunk::VertexBack(int x, int y, int z, const std::array<float, 4> array
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.00001f, (z * 1) + 1.00001f, (y * 1) + 0.0f));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.00001f, (z * 1) + (-0.0001f), (y * 1) + 0.0f));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + (-0.0001f), (y * 1) + 0.0f));
+
+	for (int i = 0; i < 6; ++i) {
+        this->_VertexBufferNormal.push_back(glm::vec3(0.0f, 0.0f, -1.0f));
+    }
+
 	this->_TextureBuffer.push_back(glm::vec2(array[2], array[0]));
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[1]));
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[0]));
@@ -174,6 +206,11 @@ void	ViewChunk::VertexFront(int x, int y, int z, const std::array<float, 4> arra
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + 1.0001f, (y * 1) + 1.0f));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + (-0.0001f), (z * 1) + (-0.0001f), (y * 1) + 1.0f));
 	this->_VertexBuffer.push_back(glm::vec3((x * 1) + 1.0001f, (z * 1) + (-0.0001f), (y * 1) + 1.0f));
+
+	for (int i = 0; i < 6; ++i) {
+        this->_VertexBufferNormal.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
+    }
+
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[0]));
 	this->_TextureBuffer.push_back(glm::vec2(array[2], array[0]));
 	this->_TextureBuffer.push_back(glm::vec2(array[3], array[1]));
@@ -222,4 +259,8 @@ GLuint ViewChunk::GiveVAOWaheur(void)
 
 glm::mat4 ViewChunk::GiveModel() {
 	return (this->_model);
+}
+
+GLuint	ViewChunk::GiveGlVertexBufferNormal() {
+	return (this->_GlVertexBufferNormal);
 }

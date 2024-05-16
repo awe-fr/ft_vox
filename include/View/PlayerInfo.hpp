@@ -2,6 +2,7 @@
 
 #include "ViewVars.hpp"
 #include <array>
+#include <iostream>
 
 class	PlayerInfo {
 	private:
