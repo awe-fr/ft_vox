@@ -8,6 +8,7 @@ SRCS = srcs/main.cpp \
 		srcs/Model/Model.cpp \
 		srcs/Model/NoiseMap.cpp \
 		srcs/Model/NoiseMapChunk.cpp \
+		srcs/Model/SimplexNoise.cpp \
 		srcs/View/PlayerInfo.cpp \
 		srcs/View/ShaderLoader.cpp \
 		srcs/View/stb.cpp \

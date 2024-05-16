@@ -1,12 +1,12 @@
 #pragma once
 #include <stddef.h>
 #include <exception>
-#include <math.h>
 #include <iostream>
 #include <vector>
 
 #include "ModelVars.hpp"
 #include "Biome.hpp"
+#include "SimplexNoise.hpp"
 
 class NoiseMapChunk
 {
@@ -34,8 +34,6 @@ class NoiseMapChunk
 		bool			_is_generated;
 };
 
-float	SimplexNoise(float x, float y);
-float	octaves(float x, float y, float persistence, float lacunarity, float amplitude, float frequency, size_t nb_octaves);
 float 	continentalness(float noise);
 float 	erosion(float noise);
 float 	peaks_valleys(float noise);
