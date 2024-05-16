@@ -16,6 +16,7 @@ Controller::~Controller(void)
 }
 
 std::mutex stop;
+glm::vec3 LightPos(150.0f, 150.0f, 150.0f);
 
 void Controller::loop(void)
 {
@@ -41,6 +42,7 @@ void Controller::loop(void)
         player = this->_view->getPlayerInfo();
 
         GLuint trans = glGetUniformLocation(this->_view->getProgramId(), "trans");
+        GLuint lightPos = glGetUniformLocation(this->_view->getProgramId(), "lightPos");
 
         glBindTexture(GL_TEXTURE_2D, this->_view->getTextu());
         for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
@@ -62,6 +64,7 @@ void Controller::loop(void)
                 glUniformMatrix4fv(this->_view->getModelId(), 1, GL_FALSE, &chunk->GiveModel()[0][0]);
 
                 glUniform1f(trans, 1);
+                glUniform3fv(lightPos, 1, &LightPos[0]);
 
                 glEnableVertexAttribArray(0);
                 glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlVertexBuffer());
