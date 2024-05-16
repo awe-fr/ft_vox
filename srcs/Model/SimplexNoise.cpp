@@ -286,12 +286,12 @@ float octaves(float x, float y, float persistence, float lacunarity, float ampli
 	return noise;
 }
 
-float octaves(float x, float y, float z, float persistence, float lacunarity, float amplitude, float frequency, size_t nb_octaves)
+float octaves(float x, float y, float z, float persistence, float lacunarity, float amplitude, float frequency, float frequency_z, size_t nb_octaves)
 {
 	float noise = 0.f;
 	for (size_t i = 0; i < nb_octaves; i++)
 	{
-		noise += amplitude * SimplexNoise(x * frequency, y * frequency, z * frequency);
+		noise += amplitude * SimplexNoise(x * frequency, y * frequency, z * frequency_z);
 		amplitude *= persistence;
 		frequency *= lacunarity;
 	}

@@ -31,7 +31,7 @@ NoiseMapChunk::NoiseMapChunk(int x, int y) : _coord{x, y}, _is_generated(false)
 
 			float avg = (e * e_weight + c * c_weight + pv * pv_weight) / (e_weight + c_weight + pv_weight);
 
-			unsigned char level = (unsigned char)10 + (unsigned char)(150.f * avg);
+			unsigned char level = (unsigned char)BASE_LEVEL + (unsigned char)(150.f * avg);
 
 			this->_map[i][j] = (unsigned char)level;
 		}

@@ -20,3 +20,4 @@ class BlockMapChunk
 };
 
 Biome get_biome(float noise);
+bool is_void(float noise);
