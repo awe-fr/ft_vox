@@ -9,11 +9,13 @@ uniform mat4 View;
 uniform mat4 Projection;
 
 out vec2 TexCoor;
+out vec3 FragPos;
 out vec3 Normal;
 
 void main(){
     mat4 MVP = Projection * View * Model;
-    gl_Position =  MVP * vec4(vertexPosition_modelspace,1);
+    gl_Position =  MVP * vec4(vertexPosition_modelspace,1.0);
     TexCoor = TextureCoor;
+    FragPos = vec3(Model * vec4(vertexPosition_modelspace, 1.0));
     Normal = aNormal;
 }
