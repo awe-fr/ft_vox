@@ -17,8 +17,9 @@ void main(){
   float diff = max(dot(norm, lightDir), 0.0);
   vec3 diffuse3 = diff * vec3(1.0f, 1.0f, 1.0f);
   vec4 diffuse = vec4(diffuse3, 1.0f);
+  diffuse /= 3;
 
-  float ambientStrength = 0.4;
+  float ambientStrength = 0.7;
   vec3 ambient3 = ambientStrength * vec3(1.0f, 1.0f, 1.0f);
   vec4 ambient = vec4(ambient3, 1.0f);
 

@@ -16,7 +16,7 @@ Controller::~Controller(void)
 }
 
 std::mutex stop;
-glm::vec3 LightPos(150.0f, 150.0f, 150.0f);
+glm::vec3 LightPos(-1500.0f, 1500.0f, -1500.0f);
 
 void Controller::loop(void)
 {
