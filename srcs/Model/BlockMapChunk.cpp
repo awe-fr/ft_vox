@@ -28,7 +28,7 @@ BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.get
                 {
                     if (k + 1 >= layers[l].min_height && k + 1 <= layers[l].max_height)
                     {
-                        if (k < BASE_LEVEL - 1)
+                        if (k < BASE_LEVEL - 1 && k > 1)
                         {
                             float z_c = (float)k / CAVE_SCALE_Z;
                             float cave_noise = octaves(x_c, y_c, z_c, 0.55f, 2.2f, 0.7f, 1.f / CAVE_SCALE, 1.f / CAVE_SCALE_Z, 5);
@@ -54,9 +54,9 @@ BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.get
 
 bool is_void(float noise)
 {
-    if (noise >= 0.f)
-        return false;
-    return true;
+    if (abs(noise) < 0.1f)
+        return true;
+    return false;
 }
 
 Biome get_biome(float noise)

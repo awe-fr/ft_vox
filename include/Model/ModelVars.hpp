@@ -8,7 +8,7 @@
 #define EROSION_SCALE 10.f
 #define PEAKS_VALLEYS_SCALE 5.f
 #define CAVE_SCALE_Z 5.f
-#define CAVE_SCALE 5.f
+#define CAVE_SCALE 3.5f
 
 #define BASE_LEVEL 80
 #define SEA_LEVEL 127
