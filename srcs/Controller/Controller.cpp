@@ -26,10 +26,12 @@ void Controller::loop(void)
     std::array<int, 2> current_pos = player->getChunkPos();
     
     std::thread render(Controller::routineThread, this, &current_pos, player, app);
+    std::chrono::time_point<std::chrono::system_clock> start, end;
     while(app->IsClosed() == false) {
+        start = std::chrono::system_clock::now();
 		getDeltaTime();
-        // if (1 / delta_time <= 200)
-		//     std::cout << 1 / delta_time << std::endl;
+        if (1 / delta_time <= 200)
+		    std::cout << 1 / delta_time << std::endl;
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glEnable(GL_CULL_FACE);
@@ -95,7 +97,7 @@ void Controller::loop(void)
                     glUniformMatrix4fv(this->_view->getViewId(), 1, GL_FALSE, &player->GiveView()[0][0]);
                     glUniformMatrix4fv(this->_view->getModelId(), 1, GL_FALSE, &chunk->GiveModel()[0][0]);
 
-                    glUniform1f(trans, 0.7);
+                    glUniform1f(trans, 0.6);
 
                     glEnableVertexAttribArray(0);
                     glBindBuffer(GL_ARRAY_BUFFER, chunk->GiveGlVertexBufferWaheur());
@@ -140,7 +142,11 @@ void Controller::loop(void)
             delete temp;
         }
         stop.unlock();
-	}
+        end = std::chrono::system_clock::now();
+        std::chrono::duration<double> elapsed_seconds = end - start;
+        if (0.0166 > elapsed_seconds.count())
+            std::this_thread::sleep_for(std::chrono::milliseconds((int)((0.016 - elapsed_seconds.count()) * 1000)));
+    }
     this->_closeThread = true;
     render.join();
 }

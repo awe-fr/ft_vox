@@ -18,10 +18,13 @@ BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.get
             unsigned char height = noise_chunk.getValue(j, i);
             for (size_t k = CHUNK_HEIGHT - 1; k >= height && k >= SEA_LEVEL; k--)
                 this->_map[i][j][k] = Void();
-            if (height < SEA_LEVEL)
-                this->_map[i][j][SEA_LEVEL - 1] = Waheur();
-            for (size_t k = SEA_LEVEL - 2; k >= height; k--)
-                this->_map[i][j][k] = Void();
+            if (height < SEA_LEVEL) {
+                for (size_t k = SEA_LEVEL - 1; k >= height; k--)
+                    this->_map[i][j][k] = Waheur();
+            }
+            //     this->_map[i][j][SEA_LEVEL - 1] = Waheur();
+            // for (size_t k = SEA_LEVEL - 2; k >= height; k--)
+            //     this->_map[i][j][k] = Void();
             for (size_t k = height - 1; k > 0; k--)
             {
                 for (size_t l = 0; l < layers.size(); l++)

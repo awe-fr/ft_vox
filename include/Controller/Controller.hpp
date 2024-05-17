@@ -2,6 +2,7 @@
 
 #include <thread>
 #include <mutex>
+#include <chrono>
 #include <stdbool.h>
 
 #include <Model/Model.hpp>

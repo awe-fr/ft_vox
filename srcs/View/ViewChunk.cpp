@@ -16,6 +16,8 @@ ViewChunk::ViewChunk(BlockMapChunk *block_chunk) : _coord{block_chunk->getCoordX
 					this->WaheurAssignment(j, i, k, block.getTextureTop());
 					continue;
 				}
+				if (block.getName() == "waheur")
+					continue;
                 if (k == CHUNK_HEIGHT - 1 || block_chunk->getBlock(j, i, k + 1).getName() == "void" || block_chunk->getBlock(j, i, k + 1).getName() == "waheur")
                     this->VertexUp(j, i, k, block.getTextureTop());
                 if (k == 0 || block_chunk->getBlock(j, i, k - 1).getName() == "void" || block_chunk->getBlock(j, i, k - 1).getName() == "waheur")
