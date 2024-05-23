@@ -1,17 +1,19 @@
 #include <Model/NoiseMapChunk.hpp>
 
+extern t_offsets offsets;
+
 NoiseMapChunk::NoiseMapChunk(int x, int y) : _coord{x, y}, _is_generated(false)
 {
 	for (size_t i = 0; i < CHUNK_SIZE; i++)
 	{
-		float y_c = (float)this->_coord[1] / CONTINENTAL_SCALE + ((float)i / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
-		float y_e = (float)this->_coord[1] / EROSION_SCALE + ((float)i / (float)CHUNK_SIZE) / EROSION_SCALE;
-		float y_pv = (float)this->_coord[1] / PEAKS_VALLEYS_SCALE + ((float)i / (float)CHUNK_SIZE) / PEAKS_VALLEYS_SCALE;
+		float y_c = (float)offsets.continental + (float)this->_coord[1] / CONTINENTAL_SCALE + ((float)i / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
+		float y_e = (float)offsets.erosion + (float)this->_coord[1] / EROSION_SCALE + ((float)i / (float)CHUNK_SIZE) / EROSION_SCALE;
+		float y_pv = (float)offsets.peaks_and_valleys + (float)this->_coord[1] / PEAKS_VALLEYS_SCALE + ((float)i / (float)CHUNK_SIZE) / PEAKS_VALLEYS_SCALE;
 		for (size_t j = 0; j < CHUNK_SIZE; j++)
 		{
-			float x_c = (float)this->_coord[0] / CONTINENTAL_SCALE + ((float)j / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
-			float x_e = (float)this->_coord[0] / EROSION_SCALE + ((float)j / (float)CHUNK_SIZE) / EROSION_SCALE;
-			float x_pv = (float)this->_coord[0] / PEAKS_VALLEYS_SCALE + ((float)j / (float)CHUNK_SIZE) / PEAKS_VALLEYS_SCALE;
+			float x_c = (float)offsets.continental + (float)this->_coord[0] / CONTINENTAL_SCALE + ((float)j / (float)CHUNK_SIZE) / CONTINENTAL_SCALE;
+			float x_e = (float)offsets.erosion + (float)this->_coord[0] / EROSION_SCALE + ((float)j / (float)CHUNK_SIZE) / EROSION_SCALE;
+			float x_pv = (float)offsets.peaks_and_valleys + (float)this->_coord[0] / PEAKS_VALLEYS_SCALE + ((float)j / (float)CHUNK_SIZE) / PEAKS_VALLEYS_SCALE;
 
 			// Erosion
 			float noise = octaves(x_e, y_e, 0.5f, 2.f, 0.8f, 1.f / EROSION_SCALE, 2);

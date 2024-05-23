@@ -1,13 +1,11 @@
 #pragma once
 
-#include <thread>
-
 #include "NoiseMapChunk.hpp"
 
 class NoiseMap
 {
     public:
-        NoiseMap();
+        NoiseMap(void);
         ~NoiseMap(void);
 
         void updateRight(void);

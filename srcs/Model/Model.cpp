@@ -1,7 +1,15 @@
 #include <Model/Model.hpp>
 
+t_offsets offsets;
+
 Model::Model(void)
 {
+    offsets.continental = rand() % 20000 - 10000;
+    offsets.erosion = rand() % 20000 - 10000;
+    offsets.peaks_and_valleys = rand() % 20000 - 10000;
+    offsets.cave = rand() % 20000 - 10000;
+    offsets.temperature = rand() % 20000 - 10000;
+
     this->_noise_map = new NoiseMap();
     this->_block_map = new BlockMap(this->_noise_map);
 }

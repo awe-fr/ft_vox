@@ -1,15 +1,17 @@
 #include <Model/BlockMapChunk.hpp>
 
+extern t_offsets offsets;
+
 BlockMapChunk::BlockMapChunk(NoiseMapChunk noise_chunk) : _coord{noise_chunk.getCoordX(), noise_chunk.getCoordY()}
 {
     for (size_t i = 0; i < CHUNK_SIZE; i++)
     {
-        float y_t = (float)this->_coord[1] / TEMPERATURE_SCALE + ((float)i / (float)CHUNK_SIZE) / TEMPERATURE_SCALE;
-        float y_c = (float)this->_coord[1] / CAVE_SCALE + ((float)i / (float)CHUNK_SIZE) / CAVE_SCALE;
+        float y_t = (float)offsets.temperature + (float)this->_coord[1] / TEMPERATURE_SCALE + ((float)i / (float)CHUNK_SIZE) / TEMPERATURE_SCALE;
+        float y_c = (float)offsets.cave + (float)this->_coord[1] / CAVE_SCALE + ((float)i / (float)CHUNK_SIZE) / CAVE_SCALE;
         for (size_t j = 0; j < CHUNK_SIZE; j++)
         {
-            float x_t = (float)this->_coord[0] / TEMPERATURE_SCALE + ((float)j / (float)CHUNK_SIZE) / TEMPERATURE_SCALE;
-            float x_c = (float)this->_coord[0] / CAVE_SCALE + ((float)j / (float)CHUNK_SIZE) / CAVE_SCALE;
+            float x_t = (float)offsets.temperature + (float)this->_coord[0] / TEMPERATURE_SCALE + ((float)j / (float)CHUNK_SIZE) / TEMPERATURE_SCALE;
+            float x_c = (float)offsets.cave + (float)this->_coord[0] / CAVE_SCALE + ((float)j / (float)CHUNK_SIZE) / CAVE_SCALE;
 
             float temp_noise = octaves(x_t, y_t, 0.5f, 2.f, 1.f, 1.f / TEMPERATURE_SCALE, 1);
             Biome biome = get_biome(temp_noise);

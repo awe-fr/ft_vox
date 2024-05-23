@@ -2,23 +2,16 @@
 
 NoiseMap::NoiseMap(void)
 {
-    std::thread threads[RENDER_DISTANCE * 2 + 1][RENDER_DISTANCE * 2 + 1];
-
     int y = -(int)(RENDER_DISTANCE);
     for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
     {
         int x = -(int)(RENDER_DISTANCE);
         for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
         {
-            threads[i][j] = std::thread(NoiseMap::generateChunk, this, j, i, x, y);
+            this->_map[i][j] = new NoiseMapChunk(x, y);
             x++;
         }
         y++;
-    }
-    for (size_t i = 0; i <= RENDER_DISTANCE * 2; i++)
-    {
-        for (size_t j = 0; j <= RENDER_DISTANCE * 2; j++)
-            threads[i][j].join();
     }
 }
 

@@ -10,5 +10,14 @@
 #define CAVE_SCALE_Z 5.f
 #define CAVE_SCALE 3.5f
 
-#define BASE_LEVEL 80
-#define SEA_LEVEL 127
+#define BASE_LEVEL 40
+#define SEA_LEVEL 87
+
+typedef struct s_offsets
+{
+    int continental;
+    int erosion;
+    int peaks_and_valleys;
+    int temperature;
+    int cave;
+} t_offsets;
