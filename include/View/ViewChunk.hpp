@@ -14,12 +14,14 @@ class	ViewChunk {
 		GLuint 					_GlTextureBuffer;
 		GLuint					_GlVertexBuffer;
 		GLuint					_VAO;
+		int						_VertexSize;
 
 		std::vector<glm::vec2>	_TextureBufferWaheur;
 		std::vector<glm::vec3>	_VertexBufferWaheur;
 		GLuint 					_GlTextureBufferWaheur;
 		GLuint					_GlVertexBufferWaheur;
 		GLuint					_VAOWaheur;
+		int						_VertexSizeWaheur;
 
 		glm::mat4				_model;
         const int               _coord[2];

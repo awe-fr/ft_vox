@@ -146,6 +146,7 @@ void Controller::loop(void)
         std::chrono::duration<double> elapsed_seconds = end - start;
         if (0.0166 > elapsed_seconds.count())
             std::this_thread::sleep_for(std::chrono::milliseconds((int)((0.016 - elapsed_seconds.count()) * 1000)));
+        std::cout << glGetError() << std::endl;
     }
     this->_closeThread = true;
     render.join();
@@ -163,7 +164,9 @@ void Controller::isOkayToBind(int i, int j, ViewChunk *chunk, bool reset) {
 }
 
 void Controller::routineThread(Controller *control, std::array<int, 2> *current_pos, PlayerInfo *player, WindowApp *app) {
+    std::chrono::time_point<std::chrono::system_clock> start, end;
     while(control->_closeThread == false) {
+        start = std::chrono::system_clock::now();
         stop.lock();
         if (control->queue.empty() == false) {
             CustomVec temp = control->queue.front();
@@ -173,6 +176,10 @@ void Controller::routineThread(Controller *control, std::array<int, 2> *current_
         }
         else
             stop.unlock();
+        end = std::chrono::system_clock::now();
+        std::chrono::duration<double> elapsed_seconds = end - start;
+        if (0.0166 > elapsed_seconds.count())
+            std::this_thread::sleep_for(std::chrono::milliseconds((int)((0.016 - elapsed_seconds.count()) * 1000)));
     }
 }
 

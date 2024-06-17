@@ -13,7 +13,7 @@ WindowApp::WindowApp(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	this->_window = glfwCreateWindow(WIDTH, HEIGHT, "ft_vox", NULL, NULL);
+	this->_window = glfwCreateWindow(WIDTH, HEIGHT, "ft_vox", glfwGetPrimaryMonitor(), NULL);
 	if (this->_window == NULL) {
 		std::cerr << "Failed to to open window" << std::endl;
 		glfwTerminate();
@@ -27,6 +27,7 @@ WindowApp::WindowApp(void)
 		return;
 	}
 	glfwSetInputMode(this->_window, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetInputMode(this->_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 }
 
 WindowApp::~WindowApp(void) {}

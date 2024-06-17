@@ -6,7 +6,7 @@ PlayerInfo::PlayerInfo(void)
 {
 	this->_HorizontalAngle = 0;
 	this->_VerticalAngle = 0;
-	this->_MouseSpeed = 0.005f;
+	this->_MouseSpeed = 0.050f;
 	this->_Speed = 5.0f;
 	this->_FOV = 80;
 	this->_Position = {0.f, (float)SEA_LEVEL + 1.f, 0.f};
@@ -28,6 +28,14 @@ glm::mat4	PlayerInfo::GiveView() {
 }
 
 void	PlayerInfo::Movements(GLFWwindow *Window) {
+	double xpos, ypos;
+	glfwGetCursorPos(Window, &xpos, &ypos);
+
+	glfwSetCursorPos(Window, WIDTH/2, HEIGHT/2);
+
+	this->_HorizontalAngle += this->_MouseSpeed * delta_time * float((float)WIDTH/2. - xpos);
+	this->_VerticalAngle += this->_MouseSpeed * delta_time * float((float)HEIGHT/2. - ypos);
+
 	if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS)
 		this->_Position += this->_Direction * delta_time * this->_Speed;
 	if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS)

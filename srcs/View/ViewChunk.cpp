@@ -65,8 +65,19 @@ void ViewChunk::bindBuffer() {
 	glBindBuffer(GL_ARRAY_BUFFER, this->_GlTextureBufferWaheur);
 	glBufferData(GL_ARRAY_BUFFER, this->_TextureBufferWaheur.size() * sizeof(glm::vec2), &this->_TextureBufferWaheur[0], GL_STATIC_DRAW);
 
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 
 	this->_binded = true;
+
+	this->_VertexSize = this->_VertexBuffer.size();
+	this->_VertexSizeWaheur = this->_VertexBufferWaheur.size();
+
+	this->_VertexBufferNormal.clear();
+	this->_TextureBuffer.clear();
+	this->_VertexBuffer.clear();
+	this->_TextureBufferWaheur.clear();
+	this->_VertexBufferWaheur.clear();
 }
 
 ViewChunk::~ViewChunk(void) {
@@ -222,11 +233,11 @@ void	ViewChunk::VertexFront(int x, int y, int z, const std::array<float, 4> arra
 }
 
 int	ViewChunk::GiveVertexBufferSize() {
-	return (this->_VertexBuffer.size());
+	return (this->_VertexSize);
 }
 
 int	ViewChunk::GiveVertexBufferSizeWaheur() {
-	return (this->_VertexBufferWaheur.size());
+	return (this->_VertexSizeWaheur);
 }
 
 GLuint	ViewChunk::GiveGlVertexBuffer() {
