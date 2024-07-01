@@ -27,7 +27,12 @@ LDFLAGS = -Iinclude -I/usr/local/include/glm/glm -Llib -lglfw -lGLEW -lGL -lX11 
 
 all: 		$(NAME)
 
-$(NAME):
+include/View/stb_image.h:
+	git clone https://github.com/awe-fr/lib.git
+	cp lib/stb_image.h include/View
+	rm -rf lib
+
+$(NAME): include/View/stb_image.h
 		g++ $(CFLAGS) -o $(NAME) $(SRCS) $(LDFLAGS) -g -O3
 
 test: 		$(NAME)
@@ -37,6 +42,7 @@ clean:
 		rm -f $(OBJS)
 
 fclean:		clean
+		rm -rf include/View/stb_image.h
 		rm -f $(NAME)
 
 re:		fclean all
