@@ -21,7 +21,7 @@ SRCS = srcs/main.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 
-CFLAGS = -pthread #-Wall -Wextra -Werror
+CFLAGS = -pthread -Wall -Wextra -Werror
 
 LDFLAGS = -Iinclude -I/usr/local/include/glm/glm -Llib -lglfw -lGLEW -lGL -lX11 -lpthread -lXrandr -lXi -ldl -D GLEW_STATIC
 

@@ -19,14 +19,14 @@ class Controller
         Controller(void);
         ~Controller(void);
 
-        void isOkayToBind(int i, int j, ViewChunk *chunk, bool reset);
+        void isOkayToBind(ViewChunk *chunk, bool reset);
         void loop(void);
         std::vector<CustomVec> queue;
         std::vector<ViewChunk *>queueChunk;
         bool    _closeThread;
     private:
         static void updateMap(Controller *control, std::array<int, 2> prev_pos, std::array<int, 2> new_pos);
-        static void routineThread(Controller *control, std::array<int, 2> *current_pos, PlayerInfo *player, WindowApp *app);
+        static void routineThread(Controller *control);
         Model   *_model;
         View    *_view;
 };

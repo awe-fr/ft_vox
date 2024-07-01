@@ -25,7 +25,7 @@ void Controller::loop(void)
     Skybox *skybox = this->_view->getSkybox();
     std::array<int, 2> current_pos = player->getChunkPos();
     
-    std::thread render(Controller::routineThread, this, &current_pos, player, app);
+    std::thread render(Controller::routineThread, this);
     std::chrono::time_point<std::chrono::system_clock> start, end;
     while(app->IsClosed() == false) {
         start = std::chrono::system_clock::now();
@@ -53,7 +53,7 @@ void Controller::loop(void)
             {
                 ViewChunk *chunk = map->getChunk(j, i);
                 if (chunk->IsBinded() == false) {
-                    isOkayToBind(i, j, chunk, false);
+                    isOkayToBind(chunk, false);
                     continue;
                 }
                 glBindVertexArray(chunk->GiveVAO());
@@ -108,7 +108,7 @@ void Controller::loop(void)
                 glDisableVertexAttribArray(0);
             }
         }
-        isOkayToBind(0, 0, NULL, true);
+        isOkayToBind(NULL, true);
 
         glDepthFunc(GL_LEQUAL);
 		glDisable(GL_CULL_FACE);
@@ -151,7 +151,7 @@ void Controller::loop(void)
     render.join();
 }
 
-void Controller::isOkayToBind(int i, int j, ViewChunk *chunk, bool reset) {
+void Controller::isOkayToBind(ViewChunk *chunk, bool reset) {
     static bool bind = false;
     if (reset == true) {
         bind = false;
@@ -162,7 +162,7 @@ void Controller::isOkayToBind(int i, int j, ViewChunk *chunk, bool reset) {
     }
 }
 
-void Controller::routineThread(Controller *control, std::array<int, 2> *current_pos, PlayerInfo *player, WindowApp *app) {
+void Controller::routineThread(Controller *control) {
     std::chrono::time_point<std::chrono::system_clock> start, end;
     while(control->_closeThread == false) {
         start = std::chrono::system_clock::now();
