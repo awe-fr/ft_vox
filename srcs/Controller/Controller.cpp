@@ -30,8 +30,8 @@ void Controller::loop(void)
     while(app->IsClosed() == false) {
         start = std::chrono::system_clock::now();
 		getDeltaTime();
-        if (1 / delta_time <= 200)
-		    std::cout << 1 / delta_time << std::endl;
+        // if (1 / delta_time <= 200)
+		//     std::cout << 1 / delta_time << std::endl;
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glEnable(GL_CULL_FACE);
@@ -146,7 +146,6 @@ void Controller::loop(void)
         std::chrono::duration<double> elapsed_seconds = end - start;
         if (0.0166 > elapsed_seconds.count())
             std::this_thread::sleep_for(std::chrono::milliseconds((int)((0.016 - elapsed_seconds.count()) * 1000)));
-        std::cout << glGetError() << std::endl;
     }
     this->_closeThread = true;
     render.join();
@@ -179,7 +178,7 @@ void Controller::routineThread(Controller *control, std::array<int, 2> *current_
         end = std::chrono::system_clock::now();
         std::chrono::duration<double> elapsed_seconds = end - start;
         if (0.0166 > elapsed_seconds.count())
-            std::this_thread::sleep_for(std::chrono::milliseconds((int)((0.016 - elapsed_seconds.count()) * 1000)));
+            std::this_thread::sleep_for(std::chrono::milliseconds((int)((0.016 - elapsed_seconds.count()) * 50000)));
     }
 }
 

@@ -282,6 +282,10 @@ float octaves(float x, float y, float persistence, float lacunarity, float ampli
 		amplitude *= persistence;
 		frequency *= lacunarity;
 	}
+    if (noise < -1.f)
+        noise = -1.f;
+    else if (noise > 1.f)
+        noise = 1.f;
 
 	return noise;
 }
@@ -295,6 +299,10 @@ float octaves(float x, float y, float z, float persistence, float lacunarity, fl
 		amplitude *= persistence;
 		frequency *= lacunarity;
 	}
+    if (noise < -1.f)
+        noise = -1.f;
+    else if (noise > 1.f)
+        noise = 1.f;
 
 	return noise;
 }
