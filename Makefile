@@ -28,9 +28,9 @@ LDFLAGS = -Iinclude -I/usr/local/include/glm/glm -Llib -lglfw -lGLEW -lGL -lX11 
 all: 		$(NAME)
 
 include/View/stb_image.h:
-	git clone https://github.com/awe-fr/lib.git
-	cp lib/stb_image.h include/View
-	rm -rf lib
+	git clone https://github.com/nothings/stb.git
+	cp stb/stb_image.h include/View
+	rm -rf stb
 
 $(NAME): include/View/stb_image.h
 		g++ $(CFLAGS) -o $(NAME) $(SRCS) $(LDFLAGS) -g -O3
