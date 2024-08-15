@@ -61,6 +61,7 @@ Before running the project, ensure you have the following :
 #### Controls
 
    - **WASD :** Move forward, backward, left, and right.
+   - **CTL / SPACE :** Move upward, downward.
    - **Mouse :** Control the camera.
    - **Shift :** Increase movement speed by 20x.
    - **Esc :** Exit the program
