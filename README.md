@@ -4,9 +4,9 @@
 ft_vox is a C++ and OpenGL project that serves as an introduction to voxel engines, inspired by the iconic game Minecraft. The primary goal of this project was to create a vast, procedurally generated world made up of voxels, which the user can explore. This README provides a comprehensive overview of the project, its objectives, features, and instructions for running the application.
 
 <p align="center">
-  <img src="screen/1c.png" alt="Image 1" width="300"/>
-  <img src="screen/2c.png" alt="Image 2" width="300"/>
-  <img src="screen/3c.png" alt="Image 3" width="300"/>
+  <img src="screen/1c.png" alt="Image 1" width="270"/>
+  <img src="screen/2c.png" alt="Image 2" width="270"/>
+  <img src="screen/3c.png" alt="Image 3" width="270"/>
 </p>
 
 ### Features
